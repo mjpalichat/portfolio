@@ -1,0 +1,12 @@
+---
+layout: base.njk
+title: Photography — Matt Palichat
+permalink: /photography/
+---
+<div class="photo-grid">
+{% for photo in photos %}
+  <figure>
+    {% responsiveImage photo, "Matt Palichat photography" %}
+  </figure>
+{% endfor %}
+</div>
