@@ -4,8 +4,6 @@
   --text-strong: #ffffff;
   --border: #232323;
   --font: Helvetica, Arial, "Segoe UI", sans-serif;
-  --gap: 6px;
-  --max-width: 1400px;
 }
 
 * { box-sizing: border-box; }
@@ -28,45 +26,51 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 28px clamp(16px, 4vw, 48px) 20px;
-  border-bottom: 1px solid var(--border);
+  gap: 24px;
+  padding: 40px clamp(16px, 4vw, 48px) 32px;
   position: sticky;
   top: 0;
-  background: rgba(11, 11, 11, 0.92);
-  backdrop-filter: blur(6px);
+  background: var(--bg);
   z-index: 100;
 }
 
 .brand {
   color: var(--text-strong);
-  font-size: 1.3rem;
-  letter-spacing: 0.08em;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .site-nav {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: clamp(16px, 3vw, 36px);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .site-nav a {
   font-size: 0.85rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--text);
-  padding-bottom: 4px;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  color: var(--text-strong);
+  transition: color 0.2s ease;
 }
 
 .site-nav a:hover,
 .site-nav a:focus-visible {
-  color: var(--text-strong);
-  border-color: var(--text-strong);
+  color: var(--text);
 }
+
+.nav-pipe {
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+/* Empty breathing room between the nav and the first row of photos,
+   matching the live site. */
+main { padding-top: 12vh; }
 
 .nav-toggle {
   display: none;
@@ -99,34 +103,38 @@ a { color: inherit; text-decoration: none; }
   margin-top: 40px;
 }
 
-/* ---------- Photo Grid (masonry via CSS columns) ---------- */
+/* ---------- Photo Grid (masonry via CSS columns, flush edge-to-edge) ---------- */
 
 .photo-grid {
-  column-count: 3;
-  column-gap: var(--gap);
-  padding: var(--gap) clamp(16px, 4vw, 48px) 48px;
-  max-width: var(--max-width);
-  margin: 0 auto;
+  column-count: 4;
+  column-gap: 0;
 }
 
 .photo-grid figure {
-  margin: 0 0 var(--gap);
+  margin: 0;
   break-inside: avoid;
-  overflow: hidden;
 }
 
 .photo-grid img {
   width: 100%;
   height: auto;
-  transition: opacity 0.4s ease;
+  display: block;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .photo-grid { column-count: 3; }
+}
+
+@media (max-width: 760px) {
   .photo-grid { column-count: 2; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 480px) {
   .photo-grid { column-count: 1; }
+}
+
+@media (max-width: 640px) {
+  main { padding-top: 6vh; }
 
   .site-nav {
     display: none;
@@ -138,10 +146,11 @@ a { color: inherit; text-decoration: none; }
     background: var(--bg);
     border-bottom: 1px solid var(--border);
     padding: 16px clamp(16px, 4vw, 48px) 24px;
-    gap: 18px;
+    gap: 14px;
   }
 
   .site-nav.is-open { display: flex; }
+  .site-nav .nav-pipe { display: none; }
 
   .nav-toggle { display: flex; }
 }
