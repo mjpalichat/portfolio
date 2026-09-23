@@ -3,16 +3,10 @@ layout: base.njk
 title: Photography — Matt Palichat
 permalink: /photography/
 ---
-<figure class="photo-hero">
-  {% responsiveImage photos[0], "Matt Palichat photography", "100vw", "eager" %}
-</figure>
-
 <div class="photo-grid">
 {% for photo in photos %}
-  {% if not loop.first %}
   <figure>
     {% responsiveImage photo, "Matt Palichat photography" %}
   </figure>
-  {% endif %}
 {% endfor %}
 </div>
