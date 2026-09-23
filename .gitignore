@@ -1,1 +1,3 @@
-node_modules/\n_site/\n.DS_Store
+node_modules/
+_site/
+.DS_Store
