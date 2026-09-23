@@ -4,11 +4,18 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const originalsDir = path.join(__dirname, "..", "images", "photography", "originals");
+const orderFile = path.join(__dirname, "photo-order.txt");
 
 export default function () {
-  return fs
-    .readdirSync(originalsDir)
-    .filter((f) => /\.(webp|jpe?g|png)$/i.test(f))
-    .sort()
+  const order = fs
+    .readFileSync(orderFile, "utf8")
+    .split("\n")
+    .map((f) => f.trim())
+    .filter(Boolean);
+
+  const existing = new Set(fs.readdirSync(originalsDir));
+
+  return order
+    .filter((f) => existing.has(f))
     .map((f) => `./src/images/photography/originals/${f}`);
 }
