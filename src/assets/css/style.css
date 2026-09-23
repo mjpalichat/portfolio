@@ -36,7 +36,7 @@ a { color: inherit; text-decoration: none; }
 
 .brand {
   color: var(--text-strong);
-  font-size: 1.6rem;
+  font-size: clamp(1.9rem, 3.2vw, 2.5rem);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 700;
@@ -51,7 +51,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .site-nav a {
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-strong);
@@ -65,7 +65,7 @@ a { color: inherit; text-decoration: none; }
 
 .nav-pipe {
   color: var(--text);
-  font-size: 0.85rem;
+  font-size: 1.05rem;
 }
 
 /* Empty breathing room between the nav and the first row of photos,
