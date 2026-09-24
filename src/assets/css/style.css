@@ -118,6 +118,8 @@ main { padding-top: 12vh; }
 }
 
 .mv-card img {
+  aspect-ratio: 1;
+  object-fit: cover;
   transition: filter 0.25s ease;
 }
 
