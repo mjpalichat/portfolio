@@ -108,8 +108,11 @@ photography, exactly:**
 
 ## Roadmap / not done yet
 
-- [ ] Build remaining pages: ~~Narrative (placeholder)~~, ~~MV~~, ~~Design~~,
-      About Me — each following the "adding a new section" pattern above
+- [x] All 5 pages built: Photography, Design, MV, ~~Narrative~~ and
+      ~~About Me~~ both empty-state placeholders — confirmed by checking the
+      live site, not assumed (About Me's form/bio never actually existed;
+      an earlier grep "finding" of form fields was a false match against
+      generic theme CSS selectors, not real content)
 - [x] MV plays video in an on-page modal (YouTube's privacy-enhanced
       `youtube-nocookie.com` embed, only created on click) rather than
       linking out to youtube.com or embedding iframes eagerly on load.
@@ -142,6 +145,11 @@ photography, exactly:**
       over from WordPress
 - [ ] Alt text pass: every photo currently has the same generic placeholder
       alt text — go through and write real per-photo descriptions
-- [ ] Contact form for About Me page (the live site has one) — needs a
-      static-friendly form backend (Formspree/Basin) with basic spam
-      protection (honeypot field at minimum)
+- [ ] About Me and Narrative are both empty-state placeholders since the
+      live site never actually had real content on either (confirmed, not
+      assumed — see above). Needs real content from Matt: a bio/photo for
+      About Me, actual work for Narrative, and — since there was never a
+      real contact form to begin with — a decision on whether he even wants
+      one. If yes, it'd need a static-friendly form backend (Formspree/Basin)
+      with basic spam protection (honeypot field at minimum), since GitHub
+      Pages has no server to handle a form submission itself
