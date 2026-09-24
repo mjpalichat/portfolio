@@ -146,6 +146,26 @@ main { padding-top: 12vh; }
   padding: 0 16px;
 }
 
+.mv-title,
+.mv-credit {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mv-card a:hover .mv-title,
+.mv-card a:focus-visible .mv-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mv-card a:hover .mv-credit,
+.mv-card a:focus-visible .mv-credit {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.05s;
+}
+
 .mv-title {
   color: var(--text-strong);
   font-family: Arial, sans-serif;
