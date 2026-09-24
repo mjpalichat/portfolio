@@ -92,6 +92,19 @@ main { padding-top: 12vh; }
   background: var(--text-strong);
 }
 
+/* ---------- Empty state (a section with no content yet) ---------- */
+
+.empty-state {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text);
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
