@@ -1,0 +1,12 @@
+---
+layout: layouts/base.njk
+title: Design — Matt Palichat
+permalink: /design/
+---
+<div class="photo-grid">
+{% for item in collections.design %}
+  <figure>
+    {% responsiveImage "./src/content/design/originals/" + item.data.image, item.data.alt, "design" %}
+  </figure>
+{% endfor %}
+</div>

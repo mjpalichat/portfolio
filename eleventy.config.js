@@ -47,24 +47,34 @@ function warnAboutUnusedImages(section, originalsDir, referencedFilenames) {
   }
 }
 
-export default function (eleventyConfig) {
-  eleventyConfig.addNunjucksAsyncShortcode("responsiveImage", imageShortcode);
-  eleventyConfig.addPassthroughCopy({ "src/assets/css": "assets/css" });
-  eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
-
-  eleventyConfig.addCollection("photography", (collectionApi) => {
-    const items = [...collectionApi.getFilteredByGlob("src/content/photography/items/*.md")].sort(
-      (a, b) => a.data.order - b.data.order
-    );
+// Registers a `content/<section>/items/*.md` folder as an Eleventy
+// collection named `section`, sorted by each item's `order` field, and
+// wires up the orphan-image safety check for it. This is the one place
+// that knows how a "section" (photography, design, ...) is put together —
+// adding a new section should only ever mean one more call to this.
+function registerContentCollection(eleventyConfig, section) {
+  eleventyConfig.addCollection(section, (collectionApi) => {
+    const items = [
+      ...collectionApi.getFilteredByGlob(`src/content/${section}/items/*.md`),
+    ].sort((a, b) => a.data.order - b.data.order);
 
     warnAboutUnusedImages(
-      "photography",
-      path.join(__dirname, "src/content/photography/originals"),
+      section,
+      path.join(__dirname, `src/content/${section}/originals`),
       items.map((item) => item.data.image)
     );
 
     return items;
   });
+}
+
+export default function (eleventyConfig) {
+  eleventyConfig.addNunjucksAsyncShortcode("responsiveImage", imageShortcode);
+  eleventyConfig.addPassthroughCopy({ "src/assets/css": "assets/css" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
+
+  registerContentCollection(eleventyConfig, "photography");
+  registerContentCollection(eleventyConfig, "design");
 
   return {
     dir: {
