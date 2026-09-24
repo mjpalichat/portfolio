@@ -105,8 +105,14 @@ photography, exactly:**
 
 ## Roadmap / not done yet
 
-- [ ] Build remaining pages: Narrative, MV (videography), Design, About Me
-      — each following the "adding a new section" pattern above
+- [ ] Build remaining pages: ~~Narrative (placeholder)~~, MV (videography),
+      ~~Design~~, About Me — each following the "adding a new section"
+      pattern above
+- [ ] The `sizes` default in `eleventy.config.js`'s `imageShortcode` is
+      hand-matched to `.photo-grid`'s current column-count breakpoints
+      (1/2/3/4 cols at 480/760/1100px). If the grid layout changes, this
+      needs updating to match or images will be served slightly larger
+      than necessary again (not broken, just not tight)
 - [ ] Decide on a real home page (currently `/` redirects straight to
       `/photography/` since the live site doesn't really have a distinct
       homepage either — revisit once the other sections exist)
