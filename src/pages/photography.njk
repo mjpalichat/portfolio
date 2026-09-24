@@ -1,12 +1,12 @@
 ---
-layout: base.njk
+layout: layouts/base.njk
 title: Photography — Matt Palichat
 permalink: /photography/
 ---
 <div class="photo-grid">
 {% for item in collections.photography %}
   <figure>
-    {% responsiveImage "./src/images/photography/originals/" + item.data.image, item.data.alt, "photography" %}
+    {% responsiveImage "./src/content/photography/originals/" + item.data.image, item.data.alt, "photography" %}
   </figure>
 {% endfor %}
 </div>

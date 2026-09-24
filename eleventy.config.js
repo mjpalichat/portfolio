@@ -42,7 +42,7 @@ function warnAboutUnusedImages(section, originalsDir, referencedFilenames) {
   if (unused.length) {
     console.log(
       `[${section}] ${unused.length} image(s) in originals/ have no matching ` +
-        `file in photography-items/ and will NOT appear on the site: ${unused.join(", ")}`
+        `file in content/${section}/items/ and will NOT appear on the site: ${unused.join(", ")}`
     );
   }
 }
@@ -53,13 +53,13 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
 
   eleventyConfig.addCollection("photography", (collectionApi) => {
-    const items = [...collectionApi.getFilteredByGlob("src/photography-items/*.md")].sort(
+    const items = [...collectionApi.getFilteredByGlob("src/content/photography/items/*.md")].sort(
       (a, b) => a.data.order - b.data.order
     );
 
     warnAboutUnusedImages(
       "photography",
-      path.join(__dirname, "src/images/photography/originals"),
+      path.join(__dirname, "src/content/photography/originals"),
       items.map((item) => item.data.image)
     );
 
