@@ -21,6 +21,13 @@ non-developer. Static HTML/CSS/JS output, built with Eleventy, deployed
 - `npx @11ty/eleventy --serve --port=8080` — local dev server with live reload
 - `_site/` and `node_modules/` are gitignored — both are fully regenerable,
   never hand-edit anything in `_site/`
+- **Gotcha:** eleventy-img caches its generated image output internally, and
+  that cache doesn't always notice when a source file's *content* changed
+  while its *filename* stayed the same (e.g. replacing `originals/foo.webp`
+  with a different image of the same name). If a swapped image still shows
+  the old picture after a rebuild, run `rm -rf _site && npx @11ty/eleventy`
+  (a full clean rebuild) rather than trusting the dev server's incremental
+  reload — this actually happened once already (MV thumbnails)
 
 ## Folder structure and why
 
