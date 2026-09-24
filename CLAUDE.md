@@ -76,7 +76,10 @@ photography, exactly:**
   naming), no spaces, no camelCase in file/folder names
 - Front-matter keys across all content items: always `image`, `order`, `alt`
   — keep these identical across every section so the pattern stays
-  copy-pasteable
+  copy-pasteable. A section can add its own extra fields on top when its
+  content genuinely needs them (e.g. `mv` items also carry `title`,
+  `credit`, `youtube_id` since a video card needs more than an image) —
+  just don't rename or drop the shared three
 - `permalink: false` on every `content/*/items/*.md` file — these are data,
   not pages; this line is what stops Eleventy from generating a stray output
   page for each one
@@ -105,9 +108,17 @@ photography, exactly:**
 
 ## Roadmap / not done yet
 
-- [ ] Build remaining pages: ~~Narrative (placeholder)~~, MV (videography),
-      ~~Design~~, About Me — each following the "adding a new section"
-      pattern above
+- [ ] Build remaining pages: ~~Narrative (placeholder)~~, ~~MV~~, ~~Design~~,
+      About Me — each following the "adding a new section" pattern above
+- [x] MV plays video in an on-page modal (YouTube's privacy-enhanced
+      `youtube-nocookie.com` embed, only created on click) rather than
+      linking out to youtube.com or embedding iframes eagerly on load.
+      Decided this way because an embedded YouTube player always shows a
+      small YouTube logo in its controls — no way around that short of
+      self-hosting actual video files, which was judged out of scope for
+      this project. Each card still has a real `href` to the YouTube watch
+      page as a no-JS fallback (`src/assets/js/mv.js` intercepts the click
+      and opens the modal instead when JS is available).
 - [ ] The `sizes` default in `eleventy.config.js`'s `imageShortcode` is
       hand-matched to `.photo-grid`'s current column-count breakpoints
       (1/2/3/4 cols at 480/760/1100px). If the grid layout changes, this

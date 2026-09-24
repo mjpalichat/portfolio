@@ -83,6 +83,7 @@ export default function (eleventyConfig) {
 
   registerContentCollection(eleventyConfig, "photography");
   registerContentCollection(eleventyConfig, "design");
+  registerContentCollection(eleventyConfig, "mv");
 
   return {
     dir: {
