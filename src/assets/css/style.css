@@ -181,6 +181,13 @@ main { padding-top: 12vh; }
   z-index: 1000;
 }
 
+/* The class above sets display:flex unconditionally, which otherwise
+   overrides the browser's own `[hidden] { display: none }` rule - this
+   is what actually makes the hidden attribute hide it. */
+.video-modal[hidden] {
+  display: none;
+}
+
 .video-modal-frame {
   width: 100%;
   max-width: 1100px;
