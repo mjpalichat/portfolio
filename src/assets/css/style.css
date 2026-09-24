@@ -118,7 +118,7 @@ main { padding-top: 12vh; }
 }
 
 .mv-card img {
-  aspect-ratio: 1;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
@@ -152,6 +152,7 @@ main { padding-top: 12vh; }
   font-size: clamp(1.2rem, 2.4vw, 1.7rem);
   font-weight: 900;
   letter-spacing: -0.02em;
+  text-transform: uppercase;
 }
 
 .mv-credit {
@@ -159,6 +160,7 @@ main { padding-top: 12vh; }
   font-family: Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 200;
+  text-transform: uppercase;
 }
 
 /* ---------- Video modal ---------- */
