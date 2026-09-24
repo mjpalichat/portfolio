@@ -1,6 +1,6 @@
 ---
 permalink: false
-image: adapt.jpg
+image: adapt.webp
 order: 4
 alt: Adapt music video still
 title: Adapt

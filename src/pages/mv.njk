@@ -3,14 +3,14 @@ layout: layouts/base.njk
 title: MV — Matt Palichat
 permalink: /mv/
 ---
-<div class="photo-grid mv-grid">
+<div class="mv-grid">
 {% for item in collections.mv %}
   <figure class="mv-card">
     <a href="https://www.youtube.com/watch?v={{ item.data.youtube_id }}"
        class="mv-play"
        data-youtube-id="{{ item.data.youtube_id }}"
        aria-label="Play {{ item.data.title }}">
-      {% responsiveImage "./src/content/mv/originals/" + item.data.image, item.data.alt, "mv" %}
+      {% responsiveImage "./src/content/mv/originals/" + item.data.image, item.data.alt, "mv", "(max-width: 700px) 100vw, 50vw" %}
       <figcaption>
         <span class="mv-title">{{ item.data.title }}</span>
         <span class="mv-credit">{{ item.data.credit }}</span>

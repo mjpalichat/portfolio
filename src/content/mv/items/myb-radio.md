@@ -1,6 +1,6 @@
 ---
 permalink: false
-image: myb-radio.jpg
+image: myb-radio.webp
 order: 1
 alt: MYB Radio music video still
 title: MYB Radio

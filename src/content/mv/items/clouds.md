@@ -1,6 +1,6 @@
 ---
 permalink: false
-image: clouds.jpg
+image: clouds.png
 order: 3
 alt: Clouds music video still
 title: Clouds
