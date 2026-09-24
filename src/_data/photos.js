@@ -13,9 +13,23 @@ export default function () {
     .map((f) => f.trim())
     .filter(Boolean);
 
-  const existing = new Set(fs.readdirSync(originalsDir));
+  const existing = fs
+    .readdirSync(originalsDir)
+    .filter((f) => /\.(webp|jpe?g|png)$/i.test(f));
+  const existingSet = new Set(existing);
 
-  return order
-    .filter((f) => existing.has(f))
-    .map((f) => `./src/images/photography/originals/${f}`);
+  const ordered = order.filter((f) => existingSet.has(f));
+  const orderedSet = new Set(ordered);
+  const unlisted = existing.filter((f) => !orderedSet.has(f)).sort();
+
+  if (unlisted.length) {
+    console.log(
+      `[photos.js] ${unlisted.length} photo(s) in originals/ are missing from photo-order.txt — ` +
+        `adding them to the end for now: ${unlisted.join(", ")}`
+    );
+  }
+
+  return [...ordered, ...unlisted].map(
+    (f) => `./src/images/photography/originals/${f}`
+  );
 }
