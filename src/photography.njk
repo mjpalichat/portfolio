@@ -4,9 +4,9 @@ title: Photography — Matt Palichat
 permalink: /photography/
 ---
 <div class="photo-grid">
-{% for photo in photos %}
+{% for item in collections.photography %}
   <figure>
-    {% responsiveImage photo, "Matt Palichat photography", "photography" %}
+    {% responsiveImage "./src/images/photography/originals/" + item.data.image, item.data.alt, "photography" %}
   </figure>
 {% endfor %}
 </div>
