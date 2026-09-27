@@ -228,6 +228,83 @@ main { padding-top: 12vh; }
   padding: 8px;
 }
 
+/* ---------- Lightbox (click a photo/design image to browse full-size) ---------- */
+
+.lightbox-trigger {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px clamp(48px, 8vw, 96px);
+  z-index: 1000;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-frame {
+  max-width: 100%;
+  max-height: calc(100vh - 80px);
+  display: flex;
+}
+
+.lightbox-frame img {
+  max-width: 100%;
+  max-height: calc(100vh - 80px);
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  background: none;
+  border: none;
+  color: var(--text-strong);
+  cursor: pointer;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: clamp(16px, 4vw, 32px);
+  font-size: 2rem;
+  line-height: 1;
+  padding: 8px;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5rem;
+  line-height: 1;
+  padding: 8px 16px;
+}
+
+.lightbox-prev {
+  left: clamp(4px, 2vw, 24px);
+}
+
+.lightbox-next {
+  right: clamp(4px, 2vw, 24px);
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -276,6 +353,7 @@ main { padding-top: 12vh; }
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s ease;

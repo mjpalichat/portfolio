@@ -3,10 +3,14 @@ layout: layouts/base.njk
 title: Design — Matt Palichat
 permalink: /design/
 ---
-<div class="photo-grid">
+<div class="photo-grid" data-lightbox-gallery>
 {% for item in collections.design %}
   <figure>
-    {% responsiveImage "./src/content/design/originals/" + item.data.image, item.data.alt, "design" %}
+    <button class="lightbox-trigger" aria-label="View {{ item.data.alt }} larger">
+      {% responsiveImage "./src/content/design/originals/" + item.data.image, item.data.alt, "design" %}
+    </button>
   </figure>
 {% endfor %}
 </div>
+
+{% include "partials/lightbox.njk" %}
