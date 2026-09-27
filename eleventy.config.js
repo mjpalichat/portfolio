@@ -6,13 +6,13 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Matches the .photo-grid column-count breakpoints in style.css exactly
-// (1 col <=480px, 2 cols <=760px, 3 cols <=1100px, 4 cols above that) so the
-// browser knows the real on-screen width instead of a rough guess.
+// (1 col <=760px, 2 cols <=1100px, 3 cols above that) so the browser
+// knows the real on-screen width instead of a rough guess.
 async function imageShortcode(
   src,
   alt,
   section,
-  sizes = "(max-width: 480px) 100vw, (max-width: 760px) 50vw, (max-width: 1100px) 33vw, 25vw"
+  sizes = "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
 ) {
   if (!alt) throw new Error(`Missing alt text for image: ${src}`);
   if (!section) throw new Error(`Missing section (e.g. "photography") for image: ${src}`);
