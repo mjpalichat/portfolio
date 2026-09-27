@@ -4,6 +4,7 @@
   --text-strong: #ffffff;
   --border: #232323;
   --font: Helvetica, Arial, "Segoe UI", sans-serif;
+  --grid-gap: 8px;
 }
 
 * { box-sizing: border-box; }
@@ -238,22 +239,31 @@ main { padding-top: 12vh; }
   margin-top: 40px;
 }
 
-/* ---------- Photo Grid (masonry via CSS columns, flush edge-to-edge) ---------- */
+/* ---------- Photo Grid (masonry via CSS columns) ---------- */
 
 .photo-grid {
   column-count: 4;
-  column-gap: 0;
+  column-gap: var(--grid-gap);
 }
 
 .photo-grid figure {
-  margin: 0;
+  margin: 0 0 var(--grid-gap);
   break-inside: avoid;
+  overflow: hidden;
 }
 
 .photo-grid img {
   width: 100%;
   height: auto;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+/* Subtle zoom on hover for plain image galleries (Photography, Design) -
+   scoped away from .mv-card, which already has its own darken + text
+   reveal and doesn't need an image scale on top of that. */
+.photo-grid figure:not(.mv-card):hover img {
+  transform: scale(1.06);
 }
 
 @media (max-width: 1100px) {
