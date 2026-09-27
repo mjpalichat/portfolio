@@ -244,26 +244,46 @@ main { padding-top: 12vh; }
 .photo-grid {
   column-count: 4;
   column-gap: var(--grid-gap);
+  padding: 0 clamp(16px, 4vw, 48px);
 }
 
 .photo-grid figure {
   margin: 0 0 var(--grid-gap);
   break-inside: avoid;
   overflow: hidden;
+  position: relative;
 }
 
 .photo-grid img {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.4s ease;
 }
 
-/* Subtle zoom on hover for plain image galleries (Photography, Design) -
-   scoped away from .mv-card, which already has its own darken + text
-   reveal and doesn't need an image scale on top of that. */
-.photo-grid figure:not(.mv-card):hover img {
-  transform: scale(1.06);
+/* Plain image galleries (Photography, Design) - not .mv-card, which has
+   its own darken + text reveal already. Every image zooms out once as it
+   loads, and hovering fades in a dark overlay (no image scale on hover). */
+@keyframes photo-zoom-in {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+.photo-grid figure:not(.mv-card) img {
+  animation: photo-zoom-in 1.2s ease-out both;
+}
+
+.photo-grid figure:not(.mv-card)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.photo-grid figure:not(.mv-card):hover::before {
+  opacity: 1;
 }
 
 @media (max-width: 1100px) {
