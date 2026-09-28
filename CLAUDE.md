@@ -143,11 +143,18 @@ photography, exactly:**
       himself or hand it to an AI assistant (Claude/Gemini) to make the
       change for him. Should reference this CLAUDE.md's "adding a new
       section" pattern directly rather than duplicating it.
-- [ ] Set up GitHub repo + GitHub Actions to build and deploy on every push,
-      so Matt (or Matt + AI) never needs Node/the terminal installed — just
-      edit files via GitHub's web UI and push. This is the actual "keep it
-      simple for him" step; skip a CMS, this achieves the same goal with far
-      less infrastructure (see earlier discussion — a CMS would need its own
+- [x] GitHub repo connected: https://github.com/mjpalichat/portfolio.git
+      (`main` branch, Ben's account already has push access as a
+      collaborator). `.git` history still carries old bloat from the
+      early `.gitignore` bug (node_modules/_site got committed before it
+      was fixed) - ~183MB of dead history. Cheap to clean up now (single
+      collaborator, nobody else has cloned yet), gets more disruptive
+      the longer it's left since fixing it means a force-push.
+- [ ] Set up GitHub Actions to build and deploy on every push, so Matt (or
+      Matt + AI) never needs Node/the terminal installed — just edit files
+      via GitHub's web UI and push. This is the actual "keep it simple for
+      him" step; skip a CMS, this achieves the same goal with far less
+      infrastructure (see earlier discussion — a CMS would need its own
       OAuth backend and accounts for comparatively little benefit here)
 - [ ] Custom domain (mattpalichat.com) DNS → GitHub Pages, once ready to cut
       over from WordPress
