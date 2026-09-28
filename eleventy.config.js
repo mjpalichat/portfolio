@@ -5,6 +5,21 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Empty locally (site serves at the domain root, e.g. localhost:8080/).
+// The GitHub Actions workflow sets this to "/portfolio/" at build time,
+// since a GitHub Pages project site with no custom domain serves from
+// https://mjpalichat.github.io/portfolio/, not the root. Once a custom
+// domain is live, just remove it from the workflow - nothing here needs
+// to change again.
+const PATH_PREFIX = process.env.PATH_PREFIX || "/";
+
+// Joins PATH_PREFIX with a path that starts with "/", without producing
+// a double slash when PATH_PREFIX is just "/".
+function withPrefix(urlPath) {
+  const base = PATH_PREFIX.endsWith("/") ? PATH_PREFIX.slice(0, -1) : PATH_PREFIX;
+  return `${base}${urlPath}`;
+}
+
 // Matches the .photo-grid column-count breakpoints in style.css exactly
 // (1 col <=760px, 2 cols <=1100px, 3 cols above that) so the browser
 // knows the real on-screen width instead of a rough guess.
@@ -21,7 +36,7 @@ async function imageShortcode(
     widths: [400, 800, 1200, 1600, 2200],
     formats: ["webp", "jpeg"],
     outputDir: `./_site/assets/images/${section}/`,
-    urlPath: `/assets/images/${section}/`,
+    urlPath: withPrefix(`/assets/images/${section}/`),
     filenameFormat: function (id, src, width, format) {
       const name = path.basename(src, path.extname(src));
       return `${name}-${width}w.${format}`;
@@ -86,6 +101,7 @@ export default function (eleventyConfig) {
   registerContentCollection(eleventyConfig, "mv");
 
   return {
+    pathPrefix: PATH_PREFIX,
     dir: {
       input: "src",
       output: "_site",

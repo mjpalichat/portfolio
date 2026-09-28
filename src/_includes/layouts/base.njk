@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title or "Matt Palichat" }}</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/">Matt Palichat</a>
+    <a class="brand" href="{{ '/' | url }}">Matt Palichat</a>
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <nav class="site-nav" id="site-nav">
-      <a href="/narrative/">Narrative</a>
-      <a href="/mv/">MV</a>
-      <a href="/design/">Design</a>
-      <a href="/photography/">Photo</a>
-      <a href="/about-me/">About Me</a>
+      <a href="{{ '/narrative/' | url }}">Narrative</a>
+      <a href="{{ '/mv/' | url }}">MV</a>
+      <a href="{{ '/design/' | url }}">Design</a>
+      <a href="{{ '/photography/' | url }}">Photo</a>
+      <a href="{{ '/about-me/' | url }}">About Me</a>
     </nav>
   </header>
 
@@ -29,6 +29,6 @@
     <p>&copy; {{ year }} Matt Palichat</p>
   </footer>
 
-  <script src="/assets/js/nav.js" defer></script>
+  <script src="{{ '/assets/js/nav.js' | url }}" defer></script>
 </body>
 </html>

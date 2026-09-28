@@ -150,14 +150,27 @@ photography, exactly:**
       was fixed) - ~183MB of dead history. Cheap to clean up now (single
       collaborator, nobody else has cloned yet), gets more disruptive
       the longer it's left since fixing it means a force-push.
-- [ ] Set up GitHub Actions to build and deploy on every push, so Matt (or
-      Matt + AI) never needs Node/the terminal installed — just edit files
-      via GitHub's web UI and push. This is the actual "keep it simple for
-      him" step; skip a CMS, this achieves the same goal with far less
-      infrastructure (see earlier discussion — a CMS would need its own
-      OAuth backend and accounts for comparatively little benefit here)
+- [x] GitHub Actions set up (`.github/workflows/deploy.yml`): builds with
+      Eleventy and deploys to GitHub Pages on every push to `main`. Matt (or
+      Matt + AI) never needs Node/the terminal — just edit files via
+      GitHub's web UI and push. Chose this over a CMS for the same reason
+      as before — far less infrastructure than a CMS's OAuth backend for
+      comparable benefit here.
+- [ ] **REMOVE ONCE THE CUSTOM DOMAIN IS LIVE:** the workflow sets
+      `PATH_PREFIX: /portfolio/` when building, because without a custom
+      domain GitHub Pages serves this project site at
+      `mjpalichat.github.io/portfolio/`, not the root — and the site
+      hardcodes root-absolute paths (`/assets/...`, `/photography/`, etc.)
+      via Eleventy's `url` filter + `pathPrefix` config
+      (`eleventy.config.js`), which only resolves correctly with that env
+      var set. Once mattpalichat.com DNS points here, delete the `env:`
+      block in `.github/workflows/deploy.yml` (`pathPrefix` then defaults
+      to `/`, same as local dev already behaves) and re-run the workflow —
+      no template changes needed, this was built to make that a one-line
+      removal.
 - [ ] Custom domain (mattpalichat.com) DNS → GitHub Pages, once ready to cut
-      over from WordPress
+      over from WordPress — see the PATH_PREFIX removal note directly above,
+      it needs to happen at the same time as this
 - [ ] Alt text pass: every photo currently has the same generic placeholder
       alt text — go through and write real per-photo descriptions
 - [ ] About Me and Narrative are both empty-state placeholders since the
