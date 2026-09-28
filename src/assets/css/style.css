@@ -4,7 +4,7 @@
   --text-strong: #ffffff;
   --border: #232323;
   --font: Helvetica, Arial, "Segoe UI", sans-serif;
-  --grid-gap: 8px;
+  --grid-gap: 10px;
 }
 
 * { box-sizing: border-box; }
@@ -123,7 +123,7 @@ main { padding-top: 12vh; }
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  transition: background 0.25s ease;
+  transition: background 0.2s ease;
 }
 
 .mv-card a:hover::before {
@@ -142,16 +142,11 @@ main { padding-top: 12vh; }
   padding: 0 16px;
 }
 
-.mv-title {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 3s ease, transform 3s ease;
-}
-
+.mv-title,
 .mv-credit {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 1.5s ease, transform 1.5s ease;
+  transform: translateY(-10%);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .mv-card a:hover .mv-title,
