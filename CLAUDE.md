@@ -155,7 +155,11 @@ photography, exactly:**
       Matt + AI) never needs Node/the terminal — just edit files via
       GitHub's web UI and push. Chose this over a CMS for the same reason
       as before — far less infrastructure than a CMS's OAuth backend for
-      comparable benefit here.
+      comparable benefit here. Live and verified working end-to-end at
+      https://mjpalichat.github.io/portfolio/ (Pages source had to be
+      switched from "Deploy from a branch" to "GitHub Actions" in repo
+      Settings → Pages — a repo-admin-only change, done by Matt since
+      Ben's collaborator access is push-only, not admin).
 - [ ] **REMOVE ONCE THE CUSTOM DOMAIN IS LIVE:** the workflow sets
       `PATH_PREFIX: /portfolio/` when building, because without a custom
       domain GitHub Pages serves this project site at
