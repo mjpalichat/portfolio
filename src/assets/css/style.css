@@ -144,20 +144,20 @@ main { padding-top: 12vh; }
 
 .mv-title {
   opacity: 0;
-  transform: translateY(14px) scale(1.4);
+  transform: translateY(14px);
   transition: opacity 3s ease, transform 3s ease;
 }
 
 .mv-credit {
   opacity: 0;
-  transform: translateY(14px) scale(1.4);
+  transform: translateY(14px);
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
 
 .mv-card a:hover .mv-title,
 .mv-card a:hover .mv-credit {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 .mv-title {
@@ -333,17 +333,8 @@ main { padding-top: 12vh; }
 }
 
 /* Plain image galleries (Photography, Design) - not .mv-card, which has
-   its own darken + text reveal already. Every image zooms out once as it
-   loads, and hovering fades in a dark overlay (no image scale on hover). */
-@keyframes photo-zoom-in {
-  from { transform: scale(1.08); }
-  to { transform: scale(1); }
-}
-
-.photo-grid figure:not(.mv-card) img {
-  animation: photo-zoom-in 1.2s ease-out both;
-}
-
+   its own darken + text reveal already. Hovering fades in a dark overlay,
+   no image scale/zoom. */
 .photo-grid figure:not(.mv-card)::before {
   content: "";
   position: absolute;
