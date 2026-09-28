@@ -1,4 +1,4 @@
-# mattpalichat-rebuild
+# portfolio
 
 A static rebuild of Matt Palichat's photography/videography portfolio
 (currently WordPress + Elementor at mattpalichat.com), built to fix a
