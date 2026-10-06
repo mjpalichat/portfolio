@@ -176,12 +176,31 @@ photography, exactly:**
       over from WordPress — see the PATH_PREFIX removal note directly above,
       it needs to happen at the same time as this
 - [ ] Alt text pass: every photo currently has the same generic placeholder
-      alt text — go through and write real per-photo descriptions
-- [ ] About Me and Narrative are both empty-state placeholders since the
-      live site never actually had real content on either (confirmed, not
-      assumed — see above). Needs real content from Matt: a bio/photo for
-      About Me, actual work for Narrative, and — since there was never a
-      real contact form to begin with — a decision on whether he even wants
-      one. If yes, it'd need a static-friendly form backend (Formspree/Basin)
-      with basic spam protection (honeypot field at minimum), since GitHub
-      Pages has no server to handle a form submission itself
+      alt text — go through and write real per-photo descriptions (will come
+      from Matt via the image metadata spreadsheet, see below)
+- [x] **SUPERSEDED by 9/28 meeting with Matt** — there is no longer a
+      separate About Me page. The homepage (`/`, currently a redirect to
+      `/photography/`) becomes bio + a few photos of Matt + a contact form +
+      quick links to the other sections. `about-me.njk` should be deleted
+      and its nav link removed once this is built. Needs from Matt: bio
+      text, photos of himself, and his preference on contact form fields —
+      all tracked in the PDF sent to him (see below). Contact form still
+      needs a static-friendly backend (Formspree/Basin) with basic spam
+      protection (honeypot at minimum), since GitHub Pages has no server.
+- [x] Narrative's content is now defined: documentaries / short films.
+      Still an empty placeholder until Matt sends a list of links +
+      thumbnails (same format as MV) — build identically to the MV page
+      once that arrives.
+- [ ] A PDF summarizing meeting notes + open questions was sent to Matt
+      (`~/Downloads/Portfolio_Website_Notes_and_Answers.pdf`) covering:
+      fonts (Google Fonts, pick 1-2 + weights), the homepage/About Me
+      change above, Narrative's definition above, Kai Dickson thumbnail
+      sizing reference (16:9, 2400px+ long edge) for his MV/Narrative
+      exports, an image metadata spreadsheet template (filename / section /
+      order / alt text / title+credit+link for MV+Narrative), confirmation
+      images auto-resize (he should send full-resolution, not pre-shrunk),
+      and VS Code (not Visual Studio) for his eventual handoff. Next
+      meeting: Sunday October 4th, 6pm. Most remaining work is blocked on
+      what Matt sends back from this.
+- [x] Zoom + fullscreen toggle buttons added to the lightbox (Photography/
+      Design).
