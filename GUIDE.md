@@ -28,13 +28,22 @@ it, install it like any other Mac app.
 ### 2. Install an AI assistant inside VS Code
 
 Open VS Code, click the Extensions icon in the left sidebar (it looks like
-four squares), and search for one of:
+four squares), and search for:
 
-- **Claude Code** (what Ben's been using to build this with you)
-- **GitHub Copilot**
+- **GitHub Copilot** — recommended to start. It has a genuine free plan
+  (2,000 code completions + 50 chat requests a month, no credit card,
+  doesn't expire), which is plenty for occasional site updates.
 
-Install it and sign in when prompted. Either one lets you type a request in
-plain English and have it make the actual file changes for you.
+**Claude Code** is the other option (what Ben's been using to build this
+with you), and it's a better assistant in practice — but worth knowing
+before you install it: the extension itself is free, but actually *using*
+it needs a paid Anthropic plan, starting at $20/month. Not free the way
+Copilot is. Start with Copilot; if you ever want to switch, say so and
+we'll cover what that involves.
+
+Install whichever one and sign in when prompted. Either lets you type a
+request in plain English and have it make the actual file changes for
+you.
 
 ### 3. Install Node.js
 
