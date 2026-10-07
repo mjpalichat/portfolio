@@ -34,8 +34,8 @@ non-developer. Static HTML/CSS/JS output, built with Eleventy, deployed
 ```
 src/
 ├── pages/              One file per URL-producing page (index, photography,
-│                        and future: narrative, mv, design, about-me). Each
-│                        sets an explicit `permalink:` in its front matter,
+│                        narrative, mv, design). Each sets an explicit
+│                        `permalink:` in its front matter,
 │                        so file location never determines the output URL —
 │                        safe to reorganize without breaking links.
 ├── _includes/
@@ -79,7 +79,7 @@ photography, exactly:**
 
 ## Naming conventions
 
-- Folders and filenames: kebab-case (`about-me.njk`, `photo-order.txt`-style
+- Folders and filenames: kebab-case (`photography.njk`, `photo-order.txt`-style
   naming), no spaces, no camelCase in file/folder names
 - Front-matter keys across all content items: always `image`, `order`, `alt`
   — keep these identical across every section so the pattern stays
@@ -179,14 +179,18 @@ photography, exactly:**
       alt text — go through and write real per-photo descriptions (will come
       from Matt via the image metadata spreadsheet, see below)
 - [x] **SUPERSEDED by 9/28 meeting with Matt** — there is no longer a
-      separate About Me page. The homepage (`/`, currently a redirect to
-      `/photography/`) becomes bio + a few photos of Matt + a contact form +
-      quick links to the other sections. `about-me.njk` should be deleted
-      and its nav link removed once this is built. Needs from Matt: bio
-      text, photos of himself, and his preference on contact form fields —
-      all tracked in the PDF sent to him (see below). Contact form still
-      needs a static-friendly backend (Formspree/Basin) with basic spam
-      protection (honeypot at minimum), since GitHub Pages has no server.
+      separate About Me page (`about-me.njk` and its nav link deleted). The
+      homepage (`/`, currently still a redirect to `/photography/` until
+      this is built) becomes bio + a few photos of Matt + a contact form +
+      quick links to the other sections. Needs from Matt: bio text, photos
+      of himself, and his preference on contact form fields — all tracked
+      in the PDF sent to him (see below).
+- [ ] Contact form: decided on Formspree (free tier is 50 submissions/month
+      — plenty for this site; Web3Forms is the fallback if that ever
+      matters, 250/month free). Not wired in yet — just needs a form
+      `action` URL once the homepage markup exists and Matt has an account/
+      endpoint set up. Needs basic spam protection (honeypot field at
+      minimum), since GitHub Pages has no server to validate anything.
 - [x] Narrative's content is now defined: documentaries / short films.
       Still an empty placeholder until Matt sends a list of links +
       thumbnails (same format as MV) — build identically to the MV page
@@ -199,8 +203,16 @@ photography, exactly:**
       exports, an image metadata spreadsheet template (filename / section /
       order / alt text / title+credit+link for MV+Narrative), confirmation
       images auto-resize (he should send full-resolution, not pre-shrunk),
-      and VS Code (not Visual Studio) for his eventual handoff. Next
-      meeting: Sunday October 4th, 6pm. Most remaining work is blocked on
-      what Matt sends back from this.
+      and VS Code (not Visual Studio) for his eventual handoff. Sent ahead
+      of the Oct 4th meeting (now past as of this writing — outcome/any
+      new decisions from that meeting not yet reflected here, check with
+      Ben). Most remaining work is blocked on what Matt sends back.
 - [x] Zoom + fullscreen toggle buttons added to the lightbox (Photography/
       Design).
+- [x] `GUIDE.md` written — plain-language handoff doc for Matt (separate
+      from this file, which is the engineering-facing one). Covers one-time
+      setup (VS Code, an AI assistant extension, Node, cloning the repo),
+      previewing locally, adding/reordering/removing photos both by hand
+      and via an AI-assistant prompt, writing alt text, publishing
+      (git push), adding a whole new section, troubleshooting the
+      eleventy-img stale-cache gotcha, and a short glossary.
