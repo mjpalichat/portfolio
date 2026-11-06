@@ -141,11 +141,12 @@ photography, exactly:**
 - [ ] Decide on a real home page (currently `/` redirects straight to
       `/photography/` since the live site doesn't really have a distinct
       homepage either — revisit once the other sections exist)
-- [ ] Write a plain-language user guide for Matt: how to add a photo, how to
-      reorder, how to write alt text — written so he can either follow it
-      himself or hand it to an AI assistant (Claude/Gemini) to make the
-      change for him. Should reference this CLAUDE.md's "adding a new
-      section" pattern directly rather than duplicating it.
+- [x] `GUIDE.md` written — plain-language handoff doc for Matt covering
+      setup (VS Code + an AI assistant extension, recommending free
+      GitHub Copilot over paid-only Claude Code), adding/reordering/
+      removing photos both by hand and via an AI-assistant prompt, alt
+      text, publishing, adding a whole new section, and the eleventy-img
+      stale-cache gotcha.
 - [x] GitHub repo connected: https://github.com/mjpalichat/portfolio.git
       (`main` branch, Ben's account already has push access as a
       collaborator). `.git` history still carries old bloat from the
