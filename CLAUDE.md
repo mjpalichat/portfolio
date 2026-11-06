@@ -129,14 +129,15 @@ photography, exactly:**
       this project. Each card still has a real `href` to the YouTube watch
       page as a no-JS fallback (`src/assets/js/mv.js` intercepts the click
       and opens the modal instead when JS is available).
-- [x] Grid is intentionally 4 columns on desktop (3 <=1100px, 2 <=760px,
-      1 <=480px) - was briefly 3, changed back deliberately for smaller
-      photos with more side padding (`clamp(24px, 6vw, 80px)`). The
+- [x] Grid is intentionally 3 columns on desktop (2 <=1100px, 1 <=760px) -
+      briefly changed to 4 by mistake (misread feedback), corrected back to
+      3, which is the real deliberate choice. Side padding was increased
+      regardless (`clamp(24px, 6vw, 80px)`, was `clamp(16px, 4vw, 48px)`) -
+      that part of the request stands independent of the column count. The
       `sizes` default in `eleventy.config.js`'s `imageShortcode` is
       hand-matched to `.photo-grid`'s column-count breakpoints - if the
-      grid layout changes again, this needs updating too or images will
-      be served slightly larger than necessary (not broken, just not
-      tight)
+      grid layout changes again, this needs updating too or images will be
+      served slightly larger than necessary (not broken, just not tight)
 - [ ] Decide on a real home page (currently `/` redirects straight to
       `/photography/` since the live site doesn't really have a distinct
       homepage either — revisit once the other sections exist)
