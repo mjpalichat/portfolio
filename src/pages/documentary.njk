@@ -1,0 +1,28 @@
+---
+layout: layouts/base.njk
+title: Documentary — Matt Palichat
+permalink: /documentary/
+---
+<div class="photo-grid">
+{% for item in collections.documentary %}
+  <figure class="mv-card">
+    <a href="https://www.youtube.com/watch?v={{ item.data.youtube_id }}"
+       class="mv-play"
+       data-youtube-id="{{ item.data.youtube_id }}"
+       aria-label="Play {{ item.data.title }}">
+      {% responsiveImage "./src/content/documentary/originals/" + item.data.image, item.data.alt, "documentary" %}
+      <figcaption>
+        <span class="mv-title">{{ item.data.title }}</span>
+        <span class="mv-credit">{{ item.data.credit }}</span>
+      </figcaption>
+    </a>
+  </figure>
+{% endfor %}
+</div>
+
+<div class="video-modal" id="video-modal" hidden>
+  <button class="video-modal-close" id="video-modal-close" aria-label="Close video">&times;</button>
+  <div class="video-modal-frame" id="video-modal-frame"></div>
+</div>
+
+<script src="{{ '/assets/js/mv.js' | url }}" defer></script>

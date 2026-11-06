@@ -99,6 +99,8 @@ export default function (eleventyConfig) {
   registerContentCollection(eleventyConfig, "photography");
   registerContentCollection(eleventyConfig, "design");
   registerContentCollection(eleventyConfig, "mv");
+  registerContentCollection(eleventyConfig, "narrative");
+  registerContentCollection(eleventyConfig, "documentary");
 
   return {
     pathPrefix: PATH_PREFIX,
