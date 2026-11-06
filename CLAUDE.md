@@ -175,9 +175,12 @@ photography, exactly:**
 - [ ] Custom domain (mattpalichat.com) DNS → GitHub Pages, once ready to cut
       over from WordPress — see the PATH_PREFIX removal note directly above,
       it needs to happen at the same time as this
-- [ ] Alt text pass: every photo currently has the same generic placeholder
-      alt text — go through and write real per-photo descriptions (will come
-      from Matt via the image metadata spreadsheet, see below)
+- [ ] Alt text pass: Photography still has the same generic placeholder on
+      every photo. Design/MV/Narrative/Documentary now have a per-item
+      readable placeholder derived from each title/filename (e.g. "Tear
+      Album cover art") — a real improvement, but still not genuine visual
+      descriptions. Real per-item text will come from Matt via the image
+      metadata spreadsheet, see below.
 - [x] **SUPERSEDED by 9/28 meeting with Matt** — there is no longer a
       separate About Me page (`about-me.njk` and its nav link deleted). The
       homepage (`/`, currently still a redirect to `/photography/` until
@@ -191,10 +194,22 @@ photography, exactly:**
       `action` URL once the homepage markup exists and Matt has an account/
       endpoint set up. Needs basic spam protection (honeypot field at
       minimum), since GitHub Pages has no server to validate anything.
-- [x] Narrative's content is now defined: documentaries / short films.
-      Still an empty placeholder until Matt sends a list of links +
-      thumbnails (same format as MV) — build identically to the MV page
-      once that arrives.
+- [x] Narrative built with 4 real items from Matt's spreadsheet (Khaf
+      Trailer, Katrina, Go For A Punch, Jazz Time!), same pattern as MV. A
+      5th item (BlackBerries) is deliberately excluded — no YouTube link
+      exists for it yet, so there's nowhere for the card to go regardless
+      of thumbnail. Waiting on Matt specifically for that one.
+- [x] Documentary is its own section now (not folded into Narrative as
+      originally planned) — Matt's spreadsheet categorized them
+      separately. 3 real items: A Century of Faith, Beauty In
+      Imperfections, Enter The Void - AiM$. Reuses the same `.mv-card` /
+      `mv.js` modal pattern as MV/Narrative (that code was already fully
+      generic, keyed off `.mv-play`, nothing MV-specific - no duplication
+      needed to add this section).
+- [x] Design fully replaced: the 29 images originally scraped from the
+      live WordPress site are gone, swapped for 24 real numbered images
+      (1.Tear-Album.png ... 26.p3.png) from a Drive folder Matt linked in
+      the spreadsheet - his own numbering is now the `order` field.
 - [ ] A PDF summarizing meeting notes + open questions was sent to Matt
       (`~/Downloads/Portfolio_Website_Notes_and_Answers.pdf`) covering:
       fonts (Google Fonts, pick 1-2 + weights), the homepage/About Me
