@@ -657,7 +657,7 @@ main { padding-top: 4vh; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--grid-gap);
-  padding: 0 clamp(24px, 6vw, 80px);
+  padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 6vw, 80px);
 }
 
 .photo-grid figure {
