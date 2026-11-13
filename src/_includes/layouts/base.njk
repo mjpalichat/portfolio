@@ -35,28 +35,28 @@
     <div class="header-center">
       <nav class="site-nav" id="site-nav">
         {% for item in navItems %}
-        <a href="{{ item.url | url }}"{% if page.url == (item.url | url) %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
         {% endfor %}
-        <a class="site-nav-contact" href="{{ '/contact/' | url }}"{% if page.url == ('/contact/' | url) %} aria-current="page"{% endif %}>Contact</a>
+        <a class="site-nav-contact" href="{{ '/contact/' | url }}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact</a>
       </nav>
       <div class="page-dots" aria-hidden="true">
-        <span class="page-dot{% if page.url == ('/' | url) %} is-current{% endif %}"></span>
+        <span class="page-dot{% if page.url == '/' %} is-current{% endif %}"></span>
         {% for item in navItems %}
-        <span class="page-dot{% if page.url == (item.url | url) %} is-current{% endif %}"></span>
+        <span class="page-dot{% if page.url == item.url %} is-current{% endif %}"></span>
         {% endfor %}
       </div>
       <nav class="compact-nav" aria-label="Collapsed navigation">
         {% for item in navItems %}
-        <a class="compact-nav-item" href="{{ item.url | url }}"{% if page.url == (item.url | url) %} aria-current="page"{% endif %} aria-label="{{ item.label }}">
-          <span class="compact-nav-letter{% if page.url == (item.url | url) %} is-current{% endif %}">{{ item.label[0] }}</span>
-          <span class="compact-nav-dot{% if page.url == (item.url | url) %} is-current{% endif %}"></span>
+        <a class="compact-nav-item" href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %} aria-label="{{ item.label }}">
+          <span class="compact-nav-letter{% if page.url == item.url %} is-current{% endif %}">{{ item.label[0] }}</span>
+          <span class="compact-nav-dot{% if page.url == item.url %} is-current{% endif %}"></span>
         </a>
         {% endfor %}
       </nav>
     </div>
 
     <div class="header-right">
-      <a href="{{ '/contact/' | url }}"{% if page.url == ('/contact/' | url) %} aria-current="page"{% endif %}>Contact</a>
+      <a href="{{ '/contact/' | url }}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact</a>
     </div>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">

@@ -108,16 +108,32 @@ a { color: inherit; text-decoration: none; }
 }
 
 .header-right a {
+  position: relative;
+  display: inline-block;
   font-size: clamp(1.65rem, 2.64vw, 2.2rem);
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-strong);
-  transition: color 0.2s ease, font-size 0.3s ease;
+  transition: font-size 0.3s ease;
 }
 
-.header-right a:hover,
-.header-right a:focus-visible {
-  color: var(--text);
+.header-right a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.header-right a:hover::after,
+.header-right a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .site-nav {
@@ -128,10 +144,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .site-nav a {
+  position: relative;
+  display: inline-block;
   font-size: clamp(1.65rem, 2.64vw, 2.2rem);
   letter-spacing: 0.02em;
   color: var(--text-strong);
-  transition: color 0.2s ease;
 }
 
 /* First letter of each nav word reads heavier and ~1.5x larger (33pt/22pt
@@ -142,16 +159,26 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.5em;
 }
 
-.site-nav a:hover,
-.site-nav a:focus-visible {
-  color: var(--text);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+/* Underline only ever appears on hover (current page is already marked by
+   the page-dots + the compact-nav's bold letter, not an underline) - and
+   it animates in with a left-to-right reveal rather than snapping on. */
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
 }
 
-.site-nav a[aria-current="page"] {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* Desktop has its own standalone Contact link (.header-right); this
