@@ -39,12 +39,11 @@
         {% endfor %}
         <a class="site-nav-contact" href="{{ '/contact/' | url }}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact</a>
       </nav>
-      <div class="page-dots" aria-hidden="true">
-        <span class="page-dot{% if page.url == '/' %} is-current{% endif %}"></span>
+      <nav class="page-dots" aria-label="Page navigation">
         {% for item in navItems %}
-        <span class="page-dot{% if page.url == item.url %} is-current{% endif %}"></span>
+        <a class="page-dot{% if page.url == item.url %} is-current{% endif %}" href="{{ item.url | url }}" aria-label="{{ item.label }}"></a>
         {% endfor %}
-      </div>
+      </nav>
       <nav class="compact-nav" aria-label="Collapsed navigation">
         {% for item in navItems %}
         <a class="compact-nav-item" href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %} aria-label="{{ item.label }}">

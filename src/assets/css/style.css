@@ -198,11 +198,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 .page-dot {
+  display: block;
   width: 13px;
   height: 13px;
   border-radius: 50%;
   border: 1px solid var(--text-strong);
   background: transparent;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.page-dot:hover,
+.page-dot:focus-visible {
+  transform: scale(1.3);
 }
 
 .page-dot.is-current {
