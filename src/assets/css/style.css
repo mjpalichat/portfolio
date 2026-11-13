@@ -42,8 +42,10 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 24px;
   padding: 62px clamp(24px, 6vw, 80px) 44px;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   background: var(--bg);
   z-index: 100;
   transition: padding 0.3s ease;
@@ -301,7 +303,16 @@ a { color: inherit; text-decoration: none; }
 
 /* Empty breathing room between the nav and the first row of photos,
    matching the live site. */
-main { padding-top: 4vh; }
+/* .site-header is `position: fixed` (not sticky) specifically so that
+   collapsing/expanding it on scroll never changes the document's own
+   height - it used to be sticky, which kept it in normal flow, so its
+   ~300px shrink-on-scroll shortened the whole page; on a short page that
+   could snap scrollY back under the collapse threshold, re-expanding the
+   header, lengthening the page again, re-collapsing it - a visible jitter
+   loop. Being fixed means main needs its own top padding to avoid sitting
+   underneath it - --header-height is measured and kept in sync by
+   nav.js (only while expanded, since that's the tallest it gets). */
+main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
 
 .nav-toggle {
   display: none;
@@ -737,7 +748,7 @@ main { padding-top: 4vh; }
 }
 
 @media (max-width: 640px) {
-  main { padding-top: 6vh; }
+  main { padding-top: calc(var(--header-height, 20vh) + 6vh); }
 
   .site-header {
     grid-template-columns: 1fr auto;

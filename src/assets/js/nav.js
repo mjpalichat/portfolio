@@ -22,5 +22,19 @@ function updateScrolledState() {
   header.classList.toggle("is-scrolled", window.scrollY > 40);
 }
 
+// main's padding-top has to reserve exactly as much space as the header
+// takes up at its tallest (expanded) - only measured while expanded,
+// since that's the only state that matters for this.
+function syncHeaderHeight() {
+  if (!header.classList.contains("is-scrolled")) {
+    document.documentElement.style.setProperty(
+      "--header-height",
+      `${header.offsetHeight}px`
+    );
+  }
+}
+
 updateScrolledState();
+syncHeaderHeight();
 window.addEventListener("scroll", updateScrolledState, { passive: true });
+window.addEventListener("resize", syncHeaderHeight, { passive: true });
