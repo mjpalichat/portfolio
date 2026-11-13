@@ -6,16 +6,21 @@
   <title>{{ title or "Matt Palichat" }}</title>
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
 </head>
-<body>
-  {% set navItems = [
-    { label: "Narrative", url: "/narrative/" },
-    { label: "Documentary", url: "/documentary/" },
-    { label: "MV", url: "/mv/" },
-    { label: "Music", url: "/music/" },
-    { label: "Design", url: "/design/" },
-    { label: "Photo", url: "/photography/" },
-    { label: "About", url: "/about/" }
-  ] %}
+{% set navItems = [
+  { label: "Narrative", url: "/narrative/" },
+  { label: "Documentary", url: "/documentary/" },
+  { label: "MV", url: "/mv/", allCaps: true },
+  { label: "Design", url: "/design/" },
+  { label: "Photo", url: "/photography/" },
+  { label: "Music", url: "/music/" },
+  { label: "About", url: "/about/" }
+] %}
+{% set pageOrder = ["/", "/narrative/", "/documentary/", "/mv/", "/design/", "/photography/", "/music/", "/about/"] %}
+{% set currentIndex = pageOrder.indexOf(page.url) %}
+{% set prevUrl = (pageOrder[currentIndex - 1] | url) if currentIndex > 0 else "" %}
+{% set nextUrl = (pageOrder[currentIndex + 1] | url) if (currentIndex > -1 and currentIndex < pageOrder.length - 1) else "" %}
+<body data-prev-url="{{ prevUrl }}" data-next-url="{{ nextUrl }}">
+
   <header class="site-header" id="site-header">
     <div class="header-left">
       <a class="brand" href="{{ '/' | url }}">MP</a>
@@ -35,7 +40,7 @@
     <div class="header-center">
       <nav class="site-nav" id="site-nav">
         {% for item in navItems %}
-        <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{% if item.allCaps %}<span class="nav-allcaps">{{ item.label }}</span>{% else %}{{ item.label }}{% endif %}</a>
         {% endfor %}
         <a class="site-nav-contact" href="{{ '/contact/' | url }}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact</a>
       </nav>

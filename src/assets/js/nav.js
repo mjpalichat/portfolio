@@ -38,3 +38,45 @@ updateScrolledState();
 syncHeaderHeight();
 window.addEventListener("scroll", updateScrolledState, { passive: true });
 window.addEventListener("resize", syncHeaderHeight, { passive: true });
+
+// Swipe left/right to move between pages, iPhone-style - body carries the
+// prev/next URLs for the current page's position in the nav order (set in
+// base.njk; empty string at either end of the sequence, so there's simply
+// nowhere to swipe to there). Skipped while a lightbox/video overlay is
+// open so browsing a gallery doesn't accidentally navigate away.
+let touchStartX = 0;
+let touchStartY = 0;
+
+function isOverlayOpen() {
+  const lightbox = document.querySelector(".lightbox");
+  const modal = document.querySelector(".video-modal");
+  return (lightbox && !lightbox.hidden) || (modal && !modal.hidden);
+}
+
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchend",
+  (e) => {
+    if (isOverlayOpen()) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const SWIPE_THRESHOLD = 60;
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+
+    const { prevUrl, nextUrl } = document.body.dataset;
+    if (dx < 0 && nextUrl) {
+      location.href = nextUrl;
+    } else if (dx > 0 && prevUrl) {
+      location.href = prevUrl;
+    }
+  },
+  { passive: true }
+);

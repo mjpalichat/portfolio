@@ -5,6 +5,7 @@
   --border: #232323;
   --font: Helvetica, Arial, "Segoe UI", sans-serif;
   --grid-gap: 10px;
+  --nav-font-size: clamp(1rem, 1.5vw, 1.25rem);
 }
 
 * { box-sizing: border-box; }
@@ -23,7 +24,7 @@ html, body {
 }
 
 body {
-  animation: page-fade-in 0.5s ease both;
+  animation: page-fade-in 1.4s ease both;
 }
 
 body.nav-open {
@@ -41,7 +42,7 @@ a { color: inherit; text-decoration: none; }
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   gap: 24px;
-  padding: 62px clamp(24px, 6vw, 80px) 44px;
+  padding: 36px clamp(24px, 6vw, 80px) 26px;
   position: fixed;
   top: 0;
   left: 0;
@@ -72,16 +73,16 @@ a { color: inherit; text-decoration: none; }
 .brand {
   display: block;
   color: var(--text-strong);
-  font-size: clamp(3.1rem, 5.1vw, 4.2rem);
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
   letter-spacing: 0.05em;
   font-weight: 700;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   transition: font-size 0.3s ease, margin 0.3s ease;
 }
 
 .social-links {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.2s ease;
 }
@@ -90,8 +91,8 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 28px;
+  height: 28px;
   border: 1px solid var(--text-strong);
   border-radius: 50%;
   color: var(--text-strong);
@@ -105,20 +106,23 @@ a { color: inherit; text-decoration: none; }
 }
 
 .social-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 14px;
+  height: 14px;
 }
 
 .header-right a {
   position: relative;
   display: inline-block;
-  font-size: clamp(1.65rem, 2.64vw, 2.2rem);
+  font-size: var(--nav-font-size);
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-strong);
   transition: font-size 0.3s ease;
 }
 
+/* transform-origin stays "left" in both states (never flips to "right")
+   so leaving hover reverses the same way it grew - the line retreats back
+   toward the left, it doesn't shoot off to the right. */
 .header-right a::after {
   content: "";
   position: absolute;
@@ -128,27 +132,26 @@ a { color: inherit; text-decoration: none; }
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
-  transform-origin: right;
+  transform-origin: left;
   transition: transform 0.3s ease;
 }
 
 .header-right a:hover::after,
 .header-right a:focus-visible::after {
   transform: scaleX(1);
-  transform-origin: left;
 }
 
 .site-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .site-nav a {
   position: relative;
   display: inline-block;
-  font-size: clamp(1.65rem, 2.64vw, 2.2rem);
+  font-size: var(--nav-font-size);
   letter-spacing: 0.02em;
   color: var(--text-strong);
 }
@@ -161,9 +164,26 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.5em;
 }
 
+/* MV is a 2-letter initialism, not a normal word - both letters get the
+   same emphasis instead of just the first (which would otherwise shrink
+   the V down to regular weight/size). The span mirrors ::first-letter's
+   own 1.5em/700 exactly, and ::first-letter is reset back to 1em/700 on
+   this one link so the two treatments don't stack into an oversized M. */
+.nav-allcaps {
+  font-weight: 700;
+  font-size: 1.5em;
+}
+
+.site-nav a:has(.nav-allcaps)::first-letter {
+  font-weight: 700;
+  font-size: 1em;
+}
+
 /* Underline only ever appears on hover (current page is already marked by
    the page-dots + the compact-nav's bold letter, not an underline) - and
-   it animates in with a left-to-right reveal rather than snapping on. */
+   it animates in with a left-to-right reveal. transform-origin stays
+   "left" in both states so leaving hover reverses the same way, retreating
+   back toward the left rather than shooting off to the right. */
 .site-nav a::after {
   content: "";
   position: absolute;
@@ -173,14 +193,13 @@ a { color: inherit; text-decoration: none; }
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
-  transform-origin: right;
+  transform-origin: left;
   transition: transform 0.3s ease;
 }
 
 .site-nav a:hover::after,
 .site-nav a:focus-visible::after {
   transform: scaleX(1);
-  transform-origin: left;
 }
 
 /* Desktop has its own standalone Contact link (.header-right); this
@@ -194,15 +213,15 @@ a { color: inherit; text-decoration: none; }
 .page-dots {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: 24px;
+  gap: 9px;
+  margin-top: 14px;
   transition: max-height 0.3s ease, opacity 0.2s ease;
 }
 
 .page-dot {
   display: block;
-  width: 13px;
-  height: 13px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   border: 1px solid var(--text-strong);
   background: transparent;
@@ -273,8 +292,8 @@ a { color: inherit; text-decoration: none; }
      the full nav, giving an easy way back to the big clickable links
      instead of only the small compact-nav letters/dots. */
   .site-header.is-scrolled:not(:hover) {
-    padding-top: 18px;
-    padding-bottom: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 
   .site-header.is-scrolled:not(:hover) .social-links,
@@ -284,12 +303,12 @@ a { color: inherit; text-decoration: none; }
   }
 
   .site-header.is-scrolled:not(:hover) .brand {
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     margin-bottom: 0;
   }
 
   .site-header.is-scrolled:not(:hover) .header-right a {
-    font-size: 1.15rem;
+    font-size: 0.9rem;
   }
 
   .site-header.is-scrolled:not(:hover) .compact-nav {
