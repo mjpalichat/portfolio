@@ -135,12 +135,28 @@ photography, exactly:**
       regardless (`clamp(24px, 6vw, 80px)`, was `clamp(16px, 4vw, 48px)`) -
       that part of the request stands independent of the column count. The
       `sizes` default in `eleventy.config.js`'s `imageShortcode` is
-      hand-matched to `.photo-grid`'s column-count breakpoints - if the
-      grid layout changes again, this needs updating too or images will be
-      served slightly larger than necessary (not broken, just not tight)
-- [ ] Decide on a real home page (currently `/` redirects straight to
-      `/photography/` since the live site doesn't really have a distinct
-      homepage either — revisit once the other sections exist)
+      hand-matched to `.photo-grid`'s breakpoints - if the grid layout
+      changes again, this needs updating too or images will be served
+      slightly larger than necessary (not broken, just not tight)
+- [x] `.photo-grid` switched from CSS multi-column masonry to a real CSS
+      `grid` (`repeat(3, 1fr)`, same 2/1 breakpoints). Numbering/reading
+      order was requested to go left-to-right then top-to-bottom like text
+      (desktop) and top-to-bottom (mobile, already true at 1 column) - CSS
+      columns fundamentally can't do that, they always fill one column
+      top-to-bottom before starting the next, so there's no "masonry +
+      correct reading order" option without JS. Trade-off: non-mv-card
+      images (Photography/Design) are now cropped to a uniform 1:1 square
+      via `object-fit: cover` instead of showing their native aspect ratio
+      — that's what makes equal-height rows possible. MV/Narrative/
+      Documentary cards are untouched (still their own 16:9 via
+      `.mv-card img`, which is more specific and wins).
+- [x] Real home page built at `/` (no longer a redirect to `/photography/`)
+      — clicking the MP logo in the header now goes to an actual page.
+      Currently just a placeholder hero (`src/pages/index.njk`,
+      `.home-hero` in style.css): a tagline and an "Enter the Site" button
+      to Photography. Matt still owes bio text and ideally a short reel/
+      video for this section — swap them in once he sends them (see the
+      About-page tension noted below, still unresolved).
 - [x] Site header rebuilt to match a reference design Matt sent (logo
       monogram + social icons on the left, a vertical nav list centered,
       a row of page-indicator dots below it, a standalone Contact link on
@@ -149,10 +165,55 @@ photography, exactly:**
       comparing each item's URL against `page.url` to set `aria-current` /
       `.is-current` — add a new nav page by adding one entry to that array,
       nothing else. First-letter emphasis on each nav word (e.g. **N**arrative)
-      uses CSS `::first-letter`, not per-word markup. The dot count is
-      home + every nav item (8 total) to match the reference exactly.
-      LinkedIn/YouTube/Instagram icons are inline SVG with placeholder `#`
-      hrefs — swap in Matt's real profile URLs when he sends them.
+      uses CSS `::first-letter` with both `font-weight: 700` and
+      `font-size: 1.5em` (matching Matt's 33pt/22pt reference ratio exactly,
+      and it stays correct automatically if the base nav font size ever
+      changes since it's relative). The dot count is home + every nav item
+      (8 total) to match the reference exactly. LinkedIn/YouTube/Instagram
+      icons are inline SVG with placeholder `#` hrefs — swap in Matt's real
+      profile URLs when he sends them. Hovering a nav link now also shows a
+      tight underline (`text-underline-offset: 2px`), separate from the
+      wider-offset underline that marks the current page.
+- [x] Header's three columns (`.header-left` / `.header-center` /
+      `.header-right`) are equal-width (`1fr 1fr 1fr`) and use the exact
+      same side padding as `.photo-grid` (`clamp(24px, 6vw, 80px)`) so the
+      MP logo and the Contact link sit centered over the first and last
+      image columns below them, not just centered over the left/right
+      halves of the whole page — matters a lot for a design portfolio
+      where everything needs to read as intentionally aligned.
+- [x] Header collapses on scroll (desktop only, `>640px`) since the full
+      version is quite tall: past 40px of scroll,
+      `src/assets/js/nav.js` adds `.is-scrolled` to the header, which
+      shrinks the brand/Contact text and swaps the full vertical nav + big
+      dots for a compact row (`.compact-nav`) — one letter (the page's
+      initial) stacked over one small dot per nav item, with the current
+      page's letter bold and its dot filled. This compact row deliberately
+      does NOT include a "home" dot the way the full `.page-dots` row does
+      — the MP logo is already visible as the home affordance in both
+      states, so repeating it felt redundant.
+- [x] MV/Narrative/Documentary thumbnails (`.mv-card`) no longer have a
+      permanent 0.5-opacity dark overlay sitting on them at all times —
+      that was a bug (`.mv-card a::before`'s default background was never
+      actually `0`), not a design choice; Photography/Design's plain
+      `.photo-grid` overlay was always hover-only and correct. Both now
+      behave the same: transparent until hovered, darkens on hover.
+- [x] Site background is pure black (`--bg: #000000`, was `#0b0b0b`).
+- [x] Removed the `<footer>` entirely (the `&copy; {{ year }} Matt
+      Palichat` line and its top border/`hr`-style divider) — wasn't
+      adding anything and Matt asked for it gone.
+- [x] Whole-page fade-in on load (`body { animation: page-fade-in 0.5s ease
+      both; }` in style.css) — a quick, simple CSS-only version of the
+      "Kia-style" fade Matt referenced, no JS/framework needed since this
+      is a plain multi-page static site (every navigation is a full page
+      load anyway, so a page-level CSS animation fires naturally each
+      time).
+- [x] Mobile nav is now a true full-screen overlay (`position: fixed;
+      inset: 0`), fading in/out via opacity + visibility rather than a
+      small dropdown panel, and the hamburger button morphs into an X
+      (`.nav-toggle.is-open`, CSS transforms on its 3 spans) instead of
+      staying a hamburger while the menu is open. `nav.js` toggles a class
+      on the button itself now (previously only on the nav), plus a
+      `body.nav-open { overflow: hidden }` scroll lock while it's open.
 - [ ] Added two new stub pages to match the reference nav: `/music/` and
       `/about/` (both just render `.empty-state`, same pattern used while a
       section has no content yet). Note the tension this creates with the

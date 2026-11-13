@@ -20,9 +20,9 @@ function withPrefix(urlPath) {
   return `${base}${urlPath}`;
 }
 
-// Matches the .photo-grid column-count breakpoints in style.css exactly
-// (1 col <=760px, 2 cols <=1100px, 3 cols above that) so the browser
-// knows the real on-screen width instead of a rough guess.
+// Matches the .photo-grid grid-template-columns breakpoints in style.css
+// exactly (1 col <=760px, 2 cols <=1100px, 3 cols above that) so the
+// browser knows the real on-screen width instead of a rough guess.
 async function imageShortcode(
   src,
   alt,

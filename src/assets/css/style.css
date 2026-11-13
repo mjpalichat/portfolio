@@ -1,5 +1,5 @@
 :root {
-  --bg: #0b0b0b;
+  --bg: #000000;
   --text: #a8a8ac;
   --text-strong: #ffffff;
   --border: #232323;
@@ -17,6 +17,19 @@ html, body {
   font-family: var(--font);
 }
 
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  animation: page-fade-in 0.5s ease both;
+}
+
+body.nav-open {
+  overflow: hidden;
+}
+
 img { max-width: 100%; display: block; }
 
 a { color: inherit; text-decoration: none; }
@@ -25,14 +38,15 @@ a { color: inherit; text-decoration: none; }
 
 .site-header {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   gap: 24px;
-  padding: 62px clamp(18px, 4.4vw, 53px) 44px;
+  padding: 62px clamp(24px, 6vw, 80px) 44px;
   position: sticky;
   top: 0;
   background: var(--bg);
   z-index: 100;
+  transition: padding 0.3s ease;
 }
 
 .header-left {
@@ -60,11 +74,14 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.05em;
   font-weight: 700;
   margin-bottom: 18px;
+  transition: font-size 0.3s ease, margin 0.3s ease;
 }
 
 .social-links {
   display: flex;
   gap: 15px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
 }
 
 .social-icon {
@@ -95,7 +112,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-strong);
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, font-size 0.3s ease;
 }
 
 .header-right a:hover,
@@ -117,15 +134,19 @@ a { color: inherit; text-decoration: none; }
   transition: color 0.2s ease;
 }
 
-/* First letter of each nav word reads heavier, matching the reference
-   design, without hardcoding markup per word. */
+/* First letter of each nav word reads heavier and ~1.5x larger (33pt/22pt
+   in the reference = 1.5 ratio) than the rest of the word, done with
+   ::first-letter so it scales with the clamp() above automatically. */
 .site-nav a::first-letter {
   font-weight: 700;
+  font-size: 1.5em;
 }
 
 .site-nav a:hover,
 .site-nav a:focus-visible {
   color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .site-nav a[aria-current="page"] {
@@ -134,7 +155,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Desktop has its own standalone Contact link (.header-right); this
-   duplicate only shows up inside the dropdown nav on mobile, see below. */
+   duplicate only shows up inside the full-screen nav overlay on mobile. */
 .site-nav-contact {
   display: none;
 }
@@ -146,6 +167,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 14px;
   margin-top: 24px;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
 }
 
 .page-dot {
@@ -158,6 +180,89 @@ a { color: inherit; text-decoration: none; }
 
 .page-dot.is-current {
   background: var(--text-strong);
+}
+
+/* ---------- Compact header (shown once the page is scrolled) ----------
+   Collapses the (quite tall) full nav down to: brand, a row of page
+   initials with a dot under each (the current page's initial is bold and
+   its dot filled), and Contact - desktop only, see the media query below. */
+
+.compact-nav {
+  display: none;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.compact-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.compact-nav-letter {
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: color 0.2s ease;
+}
+
+.compact-nav-item:hover .compact-nav-letter,
+.compact-nav-item:focus-visible .compact-nav-letter {
+  color: var(--text-strong);
+}
+
+.compact-nav-letter.is-current {
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+.compact-nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--text-strong);
+  background: transparent;
+}
+
+.compact-nav-dot.is-current {
+  background: var(--text-strong);
+}
+
+@media (min-width: 641px) {
+  /* :not(:hover) so hovering the collapsed header re-expands it back to
+     the full nav, giving an easy way back to the big clickable links
+     instead of only the small compact-nav letters/dots. */
+  .site-header.is-scrolled:not(:hover) {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .site-header.is-scrolled:not(:hover) .social-links,
+  .site-header.is-scrolled:not(:hover) .site-nav,
+  .site-header.is-scrolled:not(:hover) .page-dots {
+    display: none;
+  }
+
+  .site-header.is-scrolled:not(:hover) .brand {
+    font-size: 1.7rem;
+    margin-bottom: 0;
+  }
+
+  .site-header.is-scrolled:not(:hover) .header-right a {
+    font-size: 1.15rem;
+  }
+
+  .site-header.is-scrolled:not(:hover) .compact-nav {
+    display: flex;
+  }
+
+  .site-header.is-scrolled:hover .compact-nav {
+    display: none;
+  }
 }
 
 /* Empty breathing room between the nav and the first row of photos,
@@ -175,6 +280,8 @@ main { padding-top: 4vh; }
   border: none;
   cursor: pointer;
   padding: 0;
+  position: relative;
+  z-index: 210;
 }
 
 .nav-toggle span {
@@ -182,6 +289,19 @@ main { padding-top: 4vh; }
   height: 2px;
   width: 100%;
   background: var(--text-strong);
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-toggle.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ---------- Empty state (a section with no content yet) ---------- */
@@ -195,6 +315,43 @@ main { padding-top: 4vh; }
   color: var(--text);
   font-size: 1rem;
   letter-spacing: 0.02em;
+}
+
+/* ---------- Home hero ---------- */
+
+.home-hero {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 28px;
+  padding: 10vh clamp(24px, 6vw, 80px);
+}
+
+.home-tagline {
+  color: var(--text-strong);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-enter {
+  display: inline-block;
+  padding: 16px 36px;
+  border: 1px solid var(--text-strong);
+  color: var(--text-strong);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.home-enter:hover,
+.home-enter:focus-visible {
+  background: var(--text-strong);
+  color: var(--bg);
 }
 
 /* ---------- MV cards (thumbnail that opens the in-page video modal) ----------
@@ -214,16 +371,18 @@ main { padding-top: 4vh; }
   object-fit: cover;
 }
 
+/* Darken only appears on hover now - it used to sit at 0.5 opacity all the
+   time, which read as a permanent haze over every thumbnail. */
 .mv-card a::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0);
   transition: background 0.2s ease;
 }
 
 .mv-card a:hover::before {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .mv-card figcaption {
@@ -488,36 +647,33 @@ main { padding-top: 4vh; }
   align-self: flex-start;
 }
 
-/* ---------- Footer ---------- */
-
-.site-footer {
-  padding: 32px clamp(16px, 4vw, 48px);
-  text-align: center;
-  color: var(--text);
-  font-size: 0.75rem;
-  border-top: 1px solid var(--border);
-  margin-top: 40px;
-}
-
-/* ---------- Photo Grid (masonry via CSS columns) ---------- */
+/* ---------- Photo Grid (CSS grid, not masonry columns - reading order
+   left-to-right/top-to-bottom matters more here than variable-height
+   tiles, and CSS multi-column layout fills top-to-bottom per column
+   first, which reads wrong). Cells are cropped to a uniform square via
+   object-fit so every row lines up evenly. ---------- */
 
 .photo-grid {
-  column-count: 3;
-  column-gap: var(--grid-gap);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
   padding: 0 clamp(24px, 6vw, 80px);
 }
 
 .photo-grid figure {
-  margin: 0 0 var(--grid-gap);
-  break-inside: avoid;
+  margin: 0;
   overflow: hidden;
   position: relative;
 }
 
 .photo-grid img {
   width: 100%;
-  height: auto;
   display: block;
+}
+
+.photo-grid figure:not(.mv-card) img {
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 /* Plain image galleries (Photography, Design) - not .mv-card, which has
@@ -539,11 +695,11 @@ main { padding-top: 4vh; }
 }
 
 @media (max-width: 1100px) {
-  .photo-grid { column-count: 2; }
+  .photo-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 760px) {
-  .photo-grid { column-count: 1; }
+  .photo-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -563,20 +719,31 @@ main { padding-top: 4vh; }
 
   .site-nav-contact { display: block; }
 
+  /* Full-screen overlay, not a small dropdown panel - fades in/out and
+     the hamburger (.nav-toggle) morphs into an X via the rules above. */
   .site-nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    position: fixed;
+    inset: 0;
     background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    padding: 16px clamp(16px, 4vw, 48px) 24px;
-    gap: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 200;
   }
 
-  .site-nav.is-open { display: flex; }
+  .site-nav.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .site-nav a {
+    font-size: 1.8rem;
+  }
 
   .nav-toggle { display: flex; }
 }

@@ -16,7 +16,7 @@
     { label: "Photo", url: "/photography/" },
     { label: "About", url: "/about/" }
   ] %}
-  <header class="site-header">
+  <header class="site-header" id="site-header">
     <div class="header-left">
       <a class="brand" href="{{ '/' | url }}">MP</a>
       <div class="social-links">
@@ -45,6 +45,14 @@
         <span class="page-dot{% if page.url == (item.url | url) %} is-current{% endif %}"></span>
         {% endfor %}
       </div>
+      <nav class="compact-nav" aria-label="Collapsed navigation">
+        {% for item in navItems %}
+        <a class="compact-nav-item" href="{{ item.url | url }}"{% if page.url == (item.url | url) %} aria-current="page"{% endif %} aria-label="{{ item.label }}">
+          <span class="compact-nav-letter{% if page.url == (item.url | url) %} is-current{% endif %}">{{ item.label[0] }}</span>
+          <span class="compact-nav-dot{% if page.url == (item.url | url) %} is-current{% endif %}"></span>
+        </a>
+        {% endfor %}
+      </nav>
     </div>
 
     <div class="header-right">
@@ -59,10 +67,6 @@
   <main>
     {{ content | safe }}
   </main>
-
-  <footer class="site-footer">
-    <p>&copy; {{ year }} Matt Palichat</p>
-  </footer>
 
   <script src="{{ '/assets/js/nav.js' | url }}" defer></script>
 </body>
