@@ -7,18 +7,53 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
 </head>
 <body>
+  {% set navItems = [
+    { label: "Narrative", url: "/narrative/" },
+    { label: "Documentary", url: "/documentary/" },
+    { label: "MV", url: "/mv/" },
+    { label: "Music", url: "/music/" },
+    { label: "Design", url: "/design/" },
+    { label: "Photo", url: "/photography/" },
+    { label: "About", url: "/about/" }
+  ] %}
   <header class="site-header">
-    <a class="brand" href="{{ '/' | url }}">Matt Palichat</a>
+    <div class="header-left">
+      <a class="brand" href="{{ '/' | url }}">MP</a>
+      <div class="social-links">
+        <a class="social-icon" href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0zM3.5 8.75h3v11.75h-3V8.75zm6 0h2.87v1.6h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6v7.11h-3v-6.3c0-1.5-.03-3.43-2.09-3.43-2.1 0-2.42 1.64-2.42 3.33v6.4h-3V8.75z"/></svg>
+        </a>
+        <a class="social-icon" href="#" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.5 15.5v-7l6 3.5-6 3.5z"/></svg>
+        </a>
+        <a class="social-icon" href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <nav class="site-nav" id="site-nav">
+        {% for item in navItems %}
+        <a href="{{ item.url | url }}"{% if page.url == (item.url | url) %} aria-current="page"{% endif %}>{{ item.label }}</a>
+        {% endfor %}
+        <a class="site-nav-contact" href="{{ '/contact/' | url }}"{% if page.url == ('/contact/' | url) %} aria-current="page"{% endif %}>Contact</a>
+      </nav>
+      <div class="page-dots" aria-hidden="true">
+        <span class="page-dot{% if page.url == ('/' | url) %} is-current{% endif %}"></span>
+        {% for item in navItems %}
+        <span class="page-dot{% if page.url == (item.url | url) %} is-current{% endif %}"></span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="header-right">
+      <a href="{{ '/contact/' | url }}"{% if page.url == ('/contact/' | url) %} aria-current="page"{% endif %}>Contact</a>
+    </div>
+
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <nav class="site-nav" id="site-nav">
-      <a href="{{ '/narrative/' | url }}">Narrative</a>
-      <a href="{{ '/documentary/' | url }}">Documentary</a>
-      <a href="{{ '/mv/' | url }}">MV</a>
-      <a href="{{ '/design/' | url }}">Design</a>
-      <a href="{{ '/photography/' | url }}">Photo</a>
-    </nav>
   </header>
 
   <main>

@@ -141,6 +141,35 @@ photography, exactly:**
 - [ ] Decide on a real home page (currently `/` redirects straight to
       `/photography/` since the live site doesn't really have a distinct
       homepage either — revisit once the other sections exist)
+- [x] Site header rebuilt to match a reference design Matt sent (logo
+      monogram + social icons on the left, a vertical nav list centered,
+      a row of page-indicator dots below it, a standalone Contact link on
+      the right). `src/_includes/layouts/base.njk` now defines `navItems`
+      as a Nunjucks array and loops it for both the nav links and the dots,
+      comparing each item's URL against `page.url` to set `aria-current` /
+      `.is-current` — add a new nav page by adding one entry to that array,
+      nothing else. First-letter emphasis on each nav word (e.g. **N**arrative)
+      uses CSS `::first-letter`, not per-word markup. The dot count is
+      home + every nav item (8 total) to match the reference exactly.
+      LinkedIn/YouTube/Instagram icons are inline SVG with placeholder `#`
+      hrefs — swap in Matt's real profile URLs when he sends them.
+- [ ] Added two new stub pages to match the reference nav: `/music/` and
+      `/about/` (both just render `.empty-state`, same pattern used while a
+      section has no content yet). Note the tension this creates with the
+      entry below ("no longer a separate About Me page") — that decision
+      was made before Matt sent this header reference, and a standalone
+      About page is now back in the nav. Needs a real decision with Matt on
+      whether About stays its own page (with his bio) and the homepage
+      becomes something else, or About redirects/folds into the homepage
+      as originally planned — don't build real content for either until
+      that's settled.
+- [ ] Added `/contact/` as a real page (not folded into the homepage) with
+      a Formspree-shaped form (name/email/message) — but the `action` URL
+      is still the placeholder `https://formspree.io/f/REPLACE_ME`, clearly
+      marked with a `TODO` comment in `src/pages/contact.njk`. Submitting it
+      right now will fail. Swap in Matt's real endpoint once he has a
+      Formspree account (see the existing contact-form entry below for the
+      rest of that plan — spam protection, field set, etc. — still applies).
 - [x] `GUIDE.md` written — plain-language handoff doc for Matt covering
       setup (VS Code + an AI assistant extension, recommending free
       GitHub Copilot over paid-only Claude Code), adding/reordering/
@@ -191,7 +220,9 @@ photography, exactly:**
       this is built) becomes bio + a few photos of Matt + a contact form +
       quick links to the other sections. Needs from Matt: bio text, photos
       of himself, and his preference on contact form fields — all tracked
-      in the PDF sent to him (see below).
+      in the PDF sent to him (see below). **Revisit** — see the `/about/`
+      stub page entry above, this plan is now in tension with a standalone
+      About page being back in the nav per Matt's header reference.
 - [ ] Contact form: decided on Formspree (free tier is 50 submissions/month
       — plenty for this site; Web3Forms is the fallback if that ever
       matters, 250/month free). Not wired in yet — just needs a form

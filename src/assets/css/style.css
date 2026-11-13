@@ -24,39 +24,103 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Header / Nav ---------- */
 
 .site-header {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 24px;
-  padding: 40px clamp(16px, 4vw, 48px) 32px;
+  padding: 62px clamp(18px, 4.4vw, 53px) 44px;
   position: sticky;
   top: 0;
   background: var(--bg);
   z-index: 100;
 }
 
-.brand {
-  color: var(--text-strong);
-  font-size: clamp(1.9rem, 3.2vw, 2.5rem);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 700;
+.header-left {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.site-nav {
+.header-center {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-right {
+  justify-self: center;
+}
+
+.brand {
+  display: block;
+  color: var(--text-strong);
+  font-size: clamp(3.1rem, 5.1vw, 4.2rem);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: clamp(20px, 4vw, 40px);
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--text-strong);
+  border-radius: 50%;
+  color: var(--text-strong);
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
 }
 
-.site-nav a {
-  font-size: 1.05rem;
+.social-icon:hover,
+.social-icon:focus-visible {
+  opacity: 1;
+}
+
+.social-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.header-right a {
+  font-size: clamp(1.65rem, 2.64vw, 2.2rem);
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-strong);
   transition: color 0.2s ease;
+}
+
+.header-right a:hover,
+.header-right a:focus-visible {
+  color: var(--text);
+}
+
+.site-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.site-nav a {
+  font-size: clamp(1.65rem, 2.64vw, 2.2rem);
+  letter-spacing: 0.02em;
+  color: var(--text-strong);
+  transition: color 0.2s ease;
+}
+
+/* First letter of each nav word reads heavier, matching the reference
+   design, without hardcoding markup per word. */
+.site-nav a::first-letter {
+  font-weight: 700;
 }
 
 .site-nav a:hover,
@@ -64,9 +128,41 @@ a { color: inherit; text-decoration: none; }
   color: var(--text);
 }
 
+.site-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Desktop has its own standalone Contact link (.header-right); this
+   duplicate only shows up inside the dropdown nav on mobile, see below. */
+.site-nav-contact {
+  display: none;
+}
+
+/* One dot per page (home + every nav item) - the filled dot marks
+   whichever page is currently active. */
+.page-dots {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.page-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid var(--text-strong);
+  background: transparent;
+}
+
+.page-dot.is-current {
+  background: var(--text-strong);
+}
+
 /* Empty breathing room between the nav and the first row of photos,
    matching the live site. */
-main { padding-top: 12vh; }
+main { padding-top: 4vh; }
 
 .nav-toggle {
   display: none;
@@ -336,6 +432,62 @@ main { padding-top: 12vh; }
   right: clamp(4px, 2vw, 24px);
 }
 
+/* ---------- Contact form ---------- */
+
+.contact-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 80px) 40px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-form label {
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-top: 16px;
+}
+
+.contact-form label:first-child {
+  margin-top: 0;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-strong);
+  font-family: var(--font);
+  font-size: 1rem;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--text-strong);
+}
+
+.contact-form button {
+  margin-top: 24px;
+  padding: 12px 24px;
+  background: var(--text-strong);
+  color: var(--bg);
+  border: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
@@ -396,6 +548,20 @@ main { padding-top: 12vh; }
 
 @media (max-width: 640px) {
   main { padding-top: 6vh; }
+
+  .site-header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .header-left { grid-column: 1; grid-row: 1; }
+  .nav-toggle { grid-column: 2; grid-row: 1; }
+  .header-center { grid-column: 1 / -1; grid-row: 2; }
+
+  .header-right { display: none; }
+
+  .page-dots { display: none; }
+
+  .site-nav-contact { display: block; }
 
   .site-nav {
     display: none;
