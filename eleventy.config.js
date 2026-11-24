@@ -96,6 +96,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets/css": "assets/css" });
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
   eleventyConfig.addPassthroughCopy({ "src/assets/video": "assets/video" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/images": "assets/images" });
 
   registerContentCollection(eleventyConfig, "photography");
   registerContentCollection(eleventyConfig, "design");

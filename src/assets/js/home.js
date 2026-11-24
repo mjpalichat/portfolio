@@ -1,6 +1,19 @@
 const video = document.getElementById("home-video");
 const reelBtn = document.getElementById("home-reel-btn");
 
+// Best-effort: try to start with sound immediately, no click needed, for
+// visitors whose browser already trusts this site enough to allow it (e.g.
+// returning visitors with a high "media engagement" score). Most first-time
+// visitors' browsers will still block unmuted autoplay outright per their
+// own policy - that's a platform restriction, not something fixable from
+// here - and this silently falls back to the normal muted loop when
+// blocked. "View Reel" stays the one guaranteed way to get sound, since an
+// actual click always satisfies autoplay-with-sound restrictions.
+video.muted = false;
+video.play().catch(() => {
+  video.muted = true;
+});
+
 function backToBackgroundLoop() {
   video.muted = true;
   video.controls = false;

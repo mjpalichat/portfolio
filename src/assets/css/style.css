@@ -57,6 +57,12 @@ a { color: inherit; text-decoration: none; }
   transition: padding 0.3s ease;
 }
 
+/* Homepage only: no opaque bar behind the header - nav/logo/contact float
+   directly over the full-bleed video instead. */
+body:has(.home-hero) .site-header {
+  background: transparent;
+}
+
 .header-left {
   justify-self: center;
   display: flex;
@@ -77,10 +83,12 @@ a { color: inherit; text-decoration: none; }
 
 .brand {
   display: block;
-  color: var(--text-strong);
-  font-size: clamp(1.9rem, 3vw, 2.4rem);
-  letter-spacing: 0.05em;
-  font-weight: 700;
+}
+
+.brand-logo {
+  height: clamp(28px, 3.2vw, 40px);
+  width: auto;
+  display: block;
 }
 
 .contact-link {
@@ -241,6 +249,14 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
 }
 
+/* The current page's word stays fully expanded always, not just on hover -
+   so the viewer always knows what page they're on, not just when hovering. */
+.compact-nav-letter.is-current + .compact-nav-rest {
+  max-width: 140px;
+  opacity: 1;
+  color: var(--text-strong);
+}
+
 .compact-nav-dot {
   width: 8px;
   height: 8px;
@@ -289,7 +305,11 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
    reasoning in two places and, worse, didn't even cancel exactly, since
    this rule's "+ 4vh" was never subtracted back out). main still owns the
    one header-height value; .home-hero just fills a plain 100vh under it. */
-main:has(> .home-hero) { padding-top: var(--header-height, 50vh); }
+/* Homepage: no header-clearance padding at all, and no page scroll -
+   .home-hero is `position: fixed` covering the whole viewport itself
+   (below), so there's nothing else in normal flow to create a scrollbar. */
+main:has(> .home-hero) { padding-top: 0; }
+body:has(.home-hero) { overflow: hidden; }
 
 .nav-toggle {
   display: none;
@@ -350,8 +370,8 @@ main:has(> .home-hero) { padding-top: var(--header-height, 50vh); }
    z-index with its own background. */
 
 .home-hero {
-  position: relative;
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -748,7 +768,7 @@ main:has(> .home-hero) { padding-top: var(--header-height, 50vh); }
 
 @media (max-width: 640px) {
   main { padding-top: calc(var(--header-height, 20vh) + 6vh); }
-  main:has(> .home-hero) { padding-top: var(--header-height, 20vh); }
+  main:has(> .home-hero) { padding-top: 0; }
 
   .site-header {
     grid-template-columns: 1fr auto auto;
