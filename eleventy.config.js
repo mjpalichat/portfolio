@@ -95,6 +95,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("responsiveImage", imageShortcode);
   eleventyConfig.addPassthroughCopy({ "src/assets/css": "assets/css" });
   eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/video": "assets/video" });
 
   registerContentCollection(eleventyConfig, "photography");
   registerContentCollection(eleventyConfig, "design");

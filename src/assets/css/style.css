@@ -6,6 +6,7 @@
   --font: Helvetica, Arial, "Segoe UI", sans-serif;
   --grid-gap: 10px;
   --nav-font-size: clamp(1rem, 1.5vw, 1.25rem);
+  --nav-font-size-collapsed: 0.85rem;
 }
 
 * { box-sizing: border-box; }
@@ -76,54 +77,21 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(1.9rem, 3vw, 2.4rem);
   letter-spacing: 0.05em;
   font-weight: 700;
-  margin-bottom: 12px;
-  transition: font-size 0.3s ease, margin 0.3s ease;
 }
 
-.social-links {
-  display: flex;
-  gap: 10px;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.2s ease;
-}
-
-.social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--text-strong);
-  border-radius: 50%;
-  color: var(--text-strong);
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
-}
-
-.social-icon:hover,
-.social-icon:focus-visible {
-  opacity: 1;
-}
-
-.social-icon svg {
-  width: 14px;
-  height: 14px;
-}
-
-.header-right a {
+.contact-link {
   position: relative;
   display: inline-block;
   font-size: var(--nav-font-size);
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-strong);
-  transition: font-size 0.3s ease;
 }
 
 /* transform-origin stays "left" in both states (never flips to "right")
    so leaving hover reverses the same way it grew - the line retreats back
    toward the left, it doesn't shoot off to the right. */
-.header-right a::after {
+.contact-link::after {
   content: "";
   position: absolute;
   left: 0;
@@ -133,11 +101,11 @@ a { color: inherit; text-decoration: none; }
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s ease;
+  transition: transform 0.208s ease;
 }
 
-.header-right a:hover::after,
-.header-right a:focus-visible::after {
+.contact-link:hover::after,
+.contact-link:focus-visible::after {
   transform: scaleX(1);
 }
 
@@ -151,7 +119,7 @@ a { color: inherit; text-decoration: none; }
 .site-nav a {
   position: relative;
   display: inline-block;
-  font-size: var(--nav-font-size);
+  font-size: var(--nav-font-size-collapsed);
   letter-spacing: 0.02em;
   color: var(--text-strong);
 }
@@ -180,10 +148,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Underline only ever appears on hover (current page is already marked by
-   the page-dots + the compact-nav's bold letter, not an underline) - and
-   it animates in with a left-to-right reveal. transform-origin stays
-   "left" in both states so leaving hover reverses the same way, retreating
-   back toward the left rather than shooting off to the right. */
+   the compact-nav's bold letter/filled dot, not an underline) - and it
+   animates in with a left-to-right reveal. transform-origin stays "left"
+   in both states so leaving hover reverses the same way, retreating back
+   toward the left rather than shooting off to the right. 0.208s = 5 frames
+   at 24fps, both legs of the motion (reveal and retreat). */
 .site-nav a::after {
   content: "";
   position: absolute;
@@ -194,7 +163,7 @@ a { color: inherit; text-decoration: none; }
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s ease;
+  transition: transform 0.208s ease;
 }
 
 .site-nav a:hover::after,
@@ -202,45 +171,14 @@ a { color: inherit; text-decoration: none; }
   transform: scaleX(1);
 }
 
-/* Desktop has its own standalone Contact link (.header-right); this
-   duplicate only shows up inside the full-screen nav overlay on mobile. */
-.site-nav-contact {
-  display: none;
-}
-
-/* One dot per page (home + every nav item) - the filled dot marks
-   whichever page is currently active. */
-.page-dots {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 14px;
-  transition: max-height 0.3s ease, opacity 0.2s ease;
-}
-
-.page-dot {
-  display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1px solid var(--text-strong);
-  background: transparent;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.page-dot:hover,
-.page-dot:focus-visible {
-  transform: scale(1.3);
-}
-
-.page-dot.is-current {
-  background: var(--text-strong);
-}
-
-/* ---------- Compact header (shown once the page is scrolled) ----------
-   Collapses the (quite tall) full nav down to: brand, a row of page
-   initials with a dot under each (the current page's initial is bold and
-   its dot filled), and Contact - desktop only, see the media query below. */
+/* ---------- Desktop nav (always-on, not just once scrolled) ----------
+   The permanent desktop nav: one letter per page over a small dot. On
+   hover, the rest of the word slides out next to the letter - flexbox
+   does the "push the other circles apart" part on its own, since growing
+   one item's width in a flex row naturally shoves its siblings along the
+   main axis, no JS needed. Collapses back to just the letter on hover-out.
+   `.site-nav` (the full word list) only ever renders in the mobile
+   hamburger overlay - see the max-width:640px media query. */
 
 .compact-nav {
   display: none;
@@ -257,17 +195,42 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
 }
 
+.compact-nav-label {
+  display: flex;
+  white-space: nowrap;
+}
+
 .compact-nav-letter {
-  font-size: 0.85rem;
+  font-size: var(--nav-font-size-collapsed);
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--text);
   transition: color 0.2s ease;
 }
 
+.compact-nav-rest {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  font-size: var(--nav-font-size-collapsed);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.15s ease, color 0.2s ease;
+}
+
 .compact-nav-item:hover .compact-nav-letter,
-.compact-nav-item:focus-visible .compact-nav-letter {
+.compact-nav-item:focus-visible .compact-nav-letter,
+.compact-nav-item:hover .compact-nav-rest,
+.compact-nav-item:focus-visible .compact-nav-rest {
   color: var(--text-strong);
+}
+
+.compact-nav-item:hover .compact-nav-rest,
+.compact-nav-item:focus-visible .compact-nav-rest {
+  max-width: 140px;
+  opacity: 1;
 }
 
 .compact-nav-letter.is-current {
@@ -281,6 +244,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 50%;
   border: 1px solid var(--text-strong);
   background: transparent;
+  flex-shrink: 0;
 }
 
 .compact-nav-dot.is-current {
@@ -288,35 +252,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (min-width: 641px) {
-  /* :not(:hover) so hovering the collapsed header re-expands it back to
-     the full nav, giving an easy way back to the big clickable links
-     instead of only the small compact-nav letters/dots. */
-  .site-header.is-scrolled:not(:hover) {
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-
-  .site-header.is-scrolled:not(:hover) .social-links,
-  .site-header.is-scrolled:not(:hover) .site-nav,
-  .site-header.is-scrolled:not(:hover) .page-dots {
+  .site-nav {
     display: none;
   }
 
-  .site-header.is-scrolled:not(:hover) .brand {
-    font-size: 1.3rem;
-    margin-bottom: 0;
-  }
-
-  .site-header.is-scrolled:not(:hover) .header-right a {
-    font-size: 0.9rem;
-  }
-
-  .site-header.is-scrolled:not(:hover) .compact-nav {
+  .compact-nav {
     display: flex;
   }
 
-  .site-header.is-scrolled:hover .compact-nav {
-    display: none;
+  .site-header.is-scrolled {
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
 
@@ -381,39 +327,49 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
   letter-spacing: 0.02em;
 }
 
-/* ---------- Home hero ---------- */
+/* ---------- Home hero ----------
+   Minimal by design, per reference: a full-bleed looping background video
+   (muted/autoplay) with just one circular "View Reel" button centered over
+   it - no tagline, no secondary CTA, nav already covers getting into the
+   site. The video is `position: fixed`, independent of normal page flow,
+   so it reads as a constant full-viewport backdrop rather than a hero
+   section that scrolls away; .site-header's own opaque background still
+   layers on top of it correctly since the header is already a higher
+   z-index with its own background. */
 
 .home-hero {
-  min-height: 60vh;
+  position: relative;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 28px;
-  padding: 10vh clamp(24px, 6vw, 80px);
 }
 
-.home-tagline {
-  color: var(--text-strong);
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.home-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 }
 
-.home-enter {
-  display: inline-block;
-  padding: 16px 36px;
+.home-reel-btn {
+  width: clamp(110px, 12vw, 150px);
+  height: clamp(110px, 12vw, 150px);
+  border-radius: 50%;
   border: 1px solid var(--text-strong);
+  background: transparent;
   color: var(--text-strong);
+  font-family: var(--font);
   font-size: 1rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.home-enter:hover,
-.home-enter:focus-visible {
+.home-reel-btn:hover,
+.home-reel-btn:focus-visible {
   background: var(--text-strong);
   color: var(--bg);
 }
@@ -431,6 +387,7 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
 }
 
 .mv-card img {
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
@@ -732,6 +689,7 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
 
 .photo-grid img {
   width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -770,18 +728,13 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
   main { padding-top: calc(var(--header-height, 20vh) + 6vh); }
 
   .site-header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
   }
 
   .header-left { grid-column: 1; grid-row: 1; }
-  .nav-toggle { grid-column: 2; grid-row: 1; }
+  .header-right { grid-column: 2; grid-row: 1; }
+  .nav-toggle { grid-column: 3; grid-row: 1; }
   .header-center { grid-column: 1 / -1; grid-row: 2; }
-
-  .header-right { display: none; }
-
-  .page-dots { display: none; }
-
-  .site-nav-contact { display: block; }
 
   /* Full-screen overlay, not a small dropdown panel - fades in/out and
      the hamburger (.nav-toggle) morphs into an X via the rules above. */
