@@ -219,6 +219,14 @@ body:has(.home-hero) .site-header {
   transition: color 0.2s ease;
 }
 
+/* On the homepage the nav floats directly over the bright video with no
+   solid header bar behind it (see body:has(.home-hero) .site-header above)
+   - the dimmer gray reads as barely-visible there, so every letter goes
+   pure white, not just the current page's. */
+body:has(.home-hero) .compact-nav-letter {
+  color: var(--text-strong);
+}
+
 .compact-nav-rest {
   display: inline-block;
   max-width: 0;
@@ -720,18 +728,25 @@ body:has(.home-hero) { overflow: hidden; }
    Documentary's `.mv-card` keeps its own fixed 16:9 crop (below), since
    those are video thumbnails rather than photography/design work. ---------- */
 
+/* True masonry (CSS multi-column), not a grid - a grid's row-based layout
+   left black gaps under every photo shorter than its row's tallest one,
+   since every column in the same row shares one row height. Multi-column
+   packs each photo directly under the previous one in its own column with
+   no such row constraint, at the cost of the reading order it used to
+   guarantee (left-to-right, then top-to-bottom) - photos now land in
+   whichever column has room next, not strictly in sequence. Confirmed with
+   Matt this trade is what he wants: no gaps, order can be "scrambled". */
 .photo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: start;
-  gap: var(--grid-gap);
+  column-count: 3;
+  column-gap: var(--grid-gap);
   padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 6vw, 80px);
 }
 
 .photo-grid figure {
-  margin: 0;
+  margin: 0 0 var(--grid-gap);
   overflow: hidden;
   position: relative;
+  break-inside: avoid;
 }
 
 .photo-grid img {
@@ -759,11 +774,11 @@ body:has(.home-hero) { overflow: hidden; }
 }
 
 @media (max-width: 1100px) {
-  .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  .photo-grid { column-count: 2; }
 }
 
 @media (max-width: 760px) {
-  .photo-grid { grid-template-columns: 1fr; }
+  .photo-grid { column-count: 1; }
 }
 
 @media (max-width: 640px) {

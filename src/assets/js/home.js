@@ -11,7 +11,13 @@ const reelBtn = document.getElementById("home-reel-btn");
 // actual click always satisfies autoplay-with-sound restrictions.
 video.muted = false;
 video.play().catch(() => {
+  // Rejected (the common case - most first-time visitors' browsers block
+  // this outright): re-mute and explicitly resume playback. Without this
+  // second play() call the video was being left paused/frozen on its
+  // current frame instead of looping, since a rejected play() call can
+  // stop the video's own `autoplay` attribute from continuing to drive it.
   video.muted = true;
+  video.play();
 });
 
 function backToBackgroundLoop() {

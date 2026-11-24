@@ -141,21 +141,31 @@ photography, exactly:**
       hand-matched to `.photo-grid`'s breakpoints - if the grid layout
       changes again, this needs updating too or images will be served
       slightly larger than necessary (not broken, just not tight)
-- [x] `.photo-grid` switched from CSS multi-column masonry to a real CSS
-      `grid` (`repeat(3, 1fr)`, same 2/1 breakpoints). Numbering/reading
-      order was requested to go left-to-right then top-to-bottom like text
-      (desktop) and top-to-bottom (mobile, already true at 1 column) - CSS
-      columns fundamentally can't do that, they always fill one column
-      top-to-bottom before starting the next, so there's no "masonry +
-      correct reading order" option without JS. Photography/Design images
-      initially got a uniform 1:1 `object-fit: cover` crop here (trading
-      true aspect ratio for equal-height rows) — **superseded by Matt's
-      explicit request**: now `align-items: start` on the grid instead,
-      so each photo displays at its own native aspect ratio and rows are
-      only as tall as their tallest photo, no forced cropping. MV/Narrative/
-      Documentary cards are untouched (still their own fixed 16:9 via
-      `.mv-card img`, which is more specific and wins, and are video
-      thumbnails rather than photography/design work).
+- [x] `.photo-grid` went grid → row-based true-aspect → **true CSS
+      multi-column masonry** (`column-count`, same 3/2/1 breakpoints),
+      settling here after two superseded attempts:
+      1. Originally CSS multi-column was rejected in favor of a real CSS
+         `grid` (`repeat(3, 1fr)`) because reading order was requested
+         left-to-right-then-top-to-bottom like text, which columns can't
+         do (they fill one column top-to-bottom before starting the next).
+      2. The grid then needed a forced uniform 1:1 `object-fit: cover`
+         crop to keep every row the same height - **superseded by Matt's
+         request** for true native aspect ratios, done via
+         `align-items: start` so row height just followed each row's
+         tallest photo instead.
+      3. That in turn left visible black gaps under every photo shorter
+         than its row's tallest one (a grid row's height is shared across
+         every column in that row) - **superseded again, by Matt
+         explicitly asking for true masonry and confirming the
+         reading-order trade-off is fine** ("I don't mind it being
+         scrambled"). Back to CSS multi-column, now for real: every photo
+         packs directly under the previous one in whichever column has
+         room, no gaps, true aspect ratio, at the cost of strict reading
+         order. MV/Narrative/Documentary cards are untouched (still their
+         own fixed 16:9 via `.mv-card img`, which is more specific and
+         wins, and are video thumbnails rather than photography/design
+         work, so look the same in a masonry column as they did in a grid
+         row since they're already uniform height).
 - [x] Real home page built at `/` (no longer a redirect to `/photography/`)
       — clicking the MP logo in the header now goes to an actual page.
       Currently just a placeholder hero (`src/pages/index.njk`,
