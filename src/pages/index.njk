@@ -4,7 +4,14 @@ title: Matt Palichat
 permalink: /
 ---
 <div class="home-hero">
-  <video class="home-video" id="home-video" src="{{ '/assets/video/reel.mp4' | url }}" autoplay muted loop playsinline></video>
+  <!-- Two encodes, same split as every other responsive asset on the site
+       (eleventy-img's own breakpoints match this header/photo-grid mobile
+       cutoff): phones get a 640x360/~1.1MB file instead of the desktop
+       1280x720/~2.9MB one. -->
+  <video class="home-video" id="home-video" autoplay muted loop playsinline>
+    <source src="{{ '/assets/video/reel-mobile.mp4' | url }}" media="(max-width: 640px)" type="video/mp4">
+    <source src="{{ '/assets/video/reel.mp4' | url }}" type="video/mp4">
+  </video>
   <button class="home-reel-btn" id="home-reel-btn" type="button">View Reel</button>
 </div>
 

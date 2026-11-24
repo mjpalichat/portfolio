@@ -3,7 +3,7 @@
   --text: #a8a8ac;
   --text-strong: #ffffff;
   --border: #232323;
-  --font: Helvetica, Arial, "Segoe UI", sans-serif;
+  --font: "M PLUS 2", Helvetica, Arial, "Segoe UI", sans-serif;
   --grid-gap: 10px;
   --nav-font-size: clamp(1rem, 1.5vw, 1.25rem);
   --nav-font-size-collapsed: 0.85rem;
@@ -17,6 +17,10 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
+  /* Lets nav.js's own trackpad-swipe handler own horizontal swipes instead
+     of the browser's built-in swipe-to-go-back/forward gesture firing at
+     the same time. */
+  overscroll-behavior-x: none;
 }
 
 @keyframes page-fade-in {
@@ -84,7 +88,6 @@ a { color: inherit; text-decoration: none; }
   display: inline-block;
   font-size: var(--nav-font-size);
   letter-spacing: 0.03em;
-  text-transform: uppercase;
   color: var(--text-strong);
 }
 
@@ -119,7 +122,7 @@ a { color: inherit; text-decoration: none; }
 .site-nav a {
   position: relative;
   display: inline-block;
-  font-size: var(--nav-font-size-collapsed);
+  font-size: var(--nav-font-size);
   letter-spacing: 0.02em;
   color: var(--text-strong);
 }
@@ -278,6 +281,15 @@ a { color: inherit; text-decoration: none; }
    underneath it - --header-height is measured and kept in sync by
    nav.js (only while expanded, since that's the tallest it gets). */
 main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
+
+/* Homepage hero is full-bleed/immersive, not "content with breathing room
+   below the header" like every other page - so it opts out of the generic
+   rule above instead of counter-subtracting its own copy of
+   --header-height back out in .home-hero (that duplicated the offset
+   reasoning in two places and, worse, didn't even cancel exactly, since
+   this rule's "+ 4vh" was never subtracted back out). main still owns the
+   one header-height value; .home-hero just fills a plain 100vh under it. */
+main:has(> .home-hero) { padding-top: var(--header-height, 50vh); }
 
 .nav-toggle {
   display: none;
@@ -638,6 +650,16 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
   margin-top: 0;
 }
 
+/* Off-screen, not display:none - some spam bots skip fields that are
+   display:none/hidden but still fill ones merely positioned off-canvas. */
+.contact-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -9999px;
+}
+
 .contact-form input,
 .contact-form textarea {
   background: var(--bg);
@@ -671,12 +693,17 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
 /* ---------- Photo Grid (CSS grid, not masonry columns - reading order
    left-to-right/top-to-bottom matters more here than variable-height
    tiles, and CSS multi-column layout fills top-to-bottom per column
-   first, which reads wrong). Cells are cropped to a uniform square via
-   object-fit so every row lines up evenly. ---------- */
+   first, which reads wrong). Photography/Design show each photo at its own
+   true aspect ratio (no forced square crop) - align-items:start keeps
+   shorter photos from being stretched to match the tallest one in their
+   row, they just sit at their own native height instead. MV/Narrative/
+   Documentary's `.mv-card` keeps its own fixed 16:9 crop (below), since
+   those are video thumbnails rather than photography/design work. ---------- */
 
 .photo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: start;
   gap: var(--grid-gap);
   padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 6vw, 80px);
 }
@@ -691,11 +718,6 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
   width: 100%;
   height: auto;
   display: block;
-}
-
-.photo-grid figure:not(.mv-card) img {
-  aspect-ratio: 1;
-  object-fit: cover;
 }
 
 /* Plain image galleries (Photography, Design) - not .mv-card, which has
@@ -726,6 +748,7 @@ main { padding-top: calc(var(--header-height, 50vh) + 4vh); }
 
 @media (max-width: 640px) {
   main { padding-top: calc(var(--header-height, 20vh) + 6vh); }
+  main:has(> .home-hero) { padding-top: var(--header-height, 20vh); }
 
   .site-header {
     grid-template-columns: 1fr auto auto;

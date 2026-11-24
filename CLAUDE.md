@@ -12,8 +12,11 @@ non-developer. Static HTML/CSS/JS output, built with Eleventy, deployed
 - **eleventy-img** — generates responsive WebP/JPEG variants + `srcset` +
   `loading="lazy"` markup for every photo at build time. This is the actual
   fix for the original site's load-time problem — see `eleventy.config.js`.
-- No client-side framework. `assets/js/nav.js` is the only JS shipped to
-  visitors, and it's a ~15-line mobile-nav toggle, nothing else.
+- No client-side framework. A handful of small, single-purpose vanilla JS
+  files under `assets/js/`, each loaded only on the pages that need it:
+  `nav.js` (mobile nav toggle + swipe nav, every page), `lightbox.js`
+  (Photography/Design), `mv.js` (MV/Narrative/Documentary's video modal),
+  `home.js` (homepage's background-video "View Reel" button).
 
 ## Commands
 
@@ -144,12 +147,15 @@ photography, exactly:**
       (desktop) and top-to-bottom (mobile, already true at 1 column) - CSS
       columns fundamentally can't do that, they always fill one column
       top-to-bottom before starting the next, so there's no "masonry +
-      correct reading order" option without JS. Trade-off: non-mv-card
-      images (Photography/Design) are now cropped to a uniform 1:1 square
-      via `object-fit: cover` instead of showing their native aspect ratio
-      — that's what makes equal-height rows possible. MV/Narrative/
-      Documentary cards are untouched (still their own 16:9 via
-      `.mv-card img`, which is more specific and wins).
+      correct reading order" option without JS. Photography/Design images
+      initially got a uniform 1:1 `object-fit: cover` crop here (trading
+      true aspect ratio for equal-height rows) — **superseded by Matt's
+      explicit request**: now `align-items: start` on the grid instead,
+      so each photo displays at its own native aspect ratio and rows are
+      only as tall as their tallest photo, no forced cropping. MV/Narrative/
+      Documentary cards are untouched (still their own fixed 16:9 via
+      `.mv-card img`, which is more specific and wins, and are video
+      thumbnails rather than photography/design work).
 - [x] Real home page built at `/` (no longer a redirect to `/photography/`)
       — clicking the MP logo in the header now goes to an actual page.
       Currently just a placeholder hero (`src/pages/index.njk`,
@@ -224,13 +230,10 @@ photography, exactly:**
       becomes something else, or About redirects/folds into the homepage
       as originally planned — don't build real content for either until
       that's settled.
-- [ ] Added `/contact/` as a real page (not folded into the homepage) with
-      a Formspree-shaped form (name/email/message) — but the `action` URL
-      is still the placeholder `https://formspree.io/f/REPLACE_ME`, clearly
-      marked with a `TODO` comment in `src/pages/contact.njk`. Submitting it
-      right now will fail. Swap in Matt's real endpoint once he has a
-      Formspree account (see the existing contact-form entry below for the
-      rest of that plan — spam protection, field set, etc. — still applies).
+- [x] `/contact/` is a real page (not folded into the homepage) with a
+      Formspree form (name/email/message), wired to Matt's real endpoint
+      (`https://formspree.io/f/mrpqojvg`) plus a honeypot field
+      (`_gotcha`, Formspree's own convention) for basic spam protection.
 - [x] `GUIDE.md` written — plain-language handoff doc for Matt covering
       setup (VS Code + an AI assistant extension, recommending free
       GitHub Copilot over paid-only Claude Code), adding/reordering/
@@ -284,12 +287,10 @@ photography, exactly:**
       in the PDF sent to him (see below). **Revisit** — see the `/about/`
       stub page entry above, this plan is now in tension with a standalone
       About page being back in the nav per Matt's header reference.
-- [ ] Contact form: decided on Formspree (free tier is 50 submissions/month
-      — plenty for this site; Web3Forms is the fallback if that ever
-      matters, 250/month free). Not wired in yet — just needs a form
-      `action` URL once the homepage markup exists and Matt has an account/
-      endpoint set up. Needs basic spam protection (honeypot field at
-      minimum), since GitHub Pages has no server to validate anything.
+- [x] Contact form: Formspree (free tier is 50 submissions/month — plenty
+      for this site; Web3Forms is the fallback if that ever matters,
+      250/month free). Wired to Matt's real endpoint, see the `/contact/`
+      entry above.
 - [x] Narrative built with 4 real items from Matt's spreadsheet (Khaf
       Trailer, Katrina, Go For A Punch, Jazz Time!), same pattern as MV. A
       5th item (BlackBerries) is deliberately excluded — no YouTube link

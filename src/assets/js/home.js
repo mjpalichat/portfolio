@@ -1,23 +1,32 @@
 const video = document.getElementById("home-video");
 const reelBtn = document.getElementById("home-reel-btn");
 
+function backToBackgroundLoop() {
+  video.muted = true;
+  video.controls = false;
+}
+
 // "View Reel" unmutes the same looping background video and sends it
 // fullscreen with sound, instead of opening a separate modal/player -
 // keeps the homepage to the one video element the reference asked for.
+// iOS Safari before 16.4 has no standard requestFullscreen() for arbitrary
+// elements, only the video-specific webkitEnterFullscreen() - fall back to
+// that instead of silently leaving the video unmuted with no way back.
 reelBtn.addEventListener("click", () => {
-  video.muted = false;
-  video.controls = true;
-  video.requestFullscreen?.().catch(() => {
-    video.muted = true;
-    video.controls = false;
-  });
+  if (video.requestFullscreen) {
+    video.muted = false;
+    video.controls = true;
+    video.requestFullscreen().catch(backToBackgroundLoop);
+  } else if (video.webkitEnterFullscreen) {
+    video.muted = false;
+    video.webkitEnterFullscreen();
+  }
 });
 
 // Back to a silent background loop once fullscreen ends, however that
-// happens (Escape, the browser's own fullscreen UI, etc).
+// happens (Escape, the browser's own fullscreen UI, etc) - standard API
+// and iOS's own webkit events, covering whichever path was taken above.
 document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement !== video) {
-    video.muted = true;
-    video.controls = false;
-  }
+  if (document.fullscreenElement !== video) backToBackgroundLoop();
 });
+video.addEventListener("webkitendfullscreen", backToBackgroundLoop);

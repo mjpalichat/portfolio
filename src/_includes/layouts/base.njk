@@ -4,6 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title or "Matt Palichat" }}</title>
+  <!-- M PLUS 2 is Matt's chosen font (weight 500 is what he's styling
+       around) - requested as one variable-font range (100..900) rather
+       than several static weight files, since the CSS already uses 200,
+       400, 500, 700 and 900 across the site (nav emphasis, MV card
+       title/credit, etc.) and a range request covers all of them in a
+       single download instead of five separate ones. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
 </head>
 {% set navItems = [
