@@ -1,6 +1,6 @@
 ---
 permalink: false
-image: "myb-radio.webp"
+image: "myb-radio.png"
 order: 5
 alt: "MYB Radio music video still"
 title: "MYB RADIO"

@@ -1,6 +1,6 @@
 ---
 permalink: false
-image: "adapt.webp"
+image: "adapt.png"
 order: 8
 alt: "Adapt music video still"
 title: "ADAPT"
