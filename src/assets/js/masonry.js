@@ -1,10 +1,17 @@
 // True masonry for .photo-grid: CSS multi-column (the pre-JS/no-JS
 // fallback in style.css) can't give both "no gaps" and correct
 // left-to-right reading order at once, since it always fills one column
-// completely before starting the next. This instead places each figure,
-// in its original reading order, into whichever column currently has the
-// least content height - gapless, and reads left-to-right across roughly
-// even rows for similarly-sized photos.
+// completely before starting the next. This instead reparents each figure
+// into one of several flex columns that each stack tightly (no shared row
+// height, so no gaps) - straight round-robin by position (item N goes to
+// column N % columnCount), not by measuring which column is currently
+// shortest. An earlier version picked the shortest column by actual
+// rendered height, which seemed more "balanced" but meant a caption
+// wrapping to an extra line, or two photos differing by a few px of real
+// aspect ratio, could nudge an item into a different column than its
+// `order` implied - so "item 2 is in the center column" stopped being
+// reliably true. Round-robin makes position a direct, guaranteed function
+// of `order`, at the cost of sometimes-uneven column heights.
 function setupMasonry(grid) {
   const figures = Array.from(grid.children);
 
@@ -16,7 +23,6 @@ function setupMasonry(grid) {
     grid.classList.add("is-masonry");
     grid.innerHTML = "";
     const columns = [];
-    const heights = new Array(columnCount).fill(0);
     for (let i = 0; i < columnCount; i++) {
       const col = document.createElement("div");
       col.className = "photo-grid-col";
@@ -24,13 +30,8 @@ function setupMasonry(grid) {
       columns.push(col);
     }
 
-    figures.forEach((figure) => {
-      let shortest = 0;
-      for (let i = 1; i < columnCount; i++) {
-        if (heights[i] < heights[shortest]) shortest = i;
-      }
-      columns[shortest].appendChild(figure);
-      heights[shortest] += figure.getBoundingClientRect().height;
+    figures.forEach((figure, index) => {
+      columns[index % columnCount].appendChild(figure);
     });
   }
 
