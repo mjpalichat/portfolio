@@ -398,7 +398,7 @@ body:has(.home-hero) { overflow: hidden; }
   width: clamp(110px, 12vw, 150px);
   height: clamp(110px, 12vw, 150px);
   border-radius: 50%;
-  border: 1px solid var(--text-strong);
+  border: 2px solid var(--text-strong);
   background: transparent;
   color: var(--text-strong);
   font-family: var(--font);
@@ -728,18 +728,36 @@ body:has(.home-hero) { overflow: hidden; }
    Documentary's `.mv-card` keeps its own fixed 16:9 crop (below), since
    those are video thumbnails rather than photography/design work. ---------- */
 
-/* True masonry (CSS multi-column), not a grid - a grid's row-based layout
-   left black gaps under every photo shorter than its row's tallest one,
-   since every column in the same row shares one row height. Multi-column
-   packs each photo directly under the previous one in its own column with
-   no such row constraint, at the cost of the reading order it used to
-   guarantee (left-to-right, then top-to-bottom) - photos now land in
-   whichever column has room next, not strictly in sequence. Confirmed with
-   Matt this trade is what he wants: no gaps, order can be "scrambled". */
+/* True masonry, via assets/js/masonry.js, not CSS multi-column - multi-
+   column can't give both "no gaps" and correct left-to-right reading
+   order at once, since it always fills one column completely before
+   starting the next (so items 1,2,3 would all stack in column 1, instead
+   of reading across the first row). masonry.js reparents these figures
+   into explicit .photo-grid-col flex columns, placing each one (in
+   original reading order) into whichever column is currently shortest -
+   this is the --grid-columns custom property it reads to know how many
+   columns to build at the current breakpoint. `column-count` below is
+   just the pre-JS/no-JS fallback (same gaps-vs-order trade as before). */
 .photo-grid {
+  --grid-columns: 3;
   column-count: 3;
   column-gap: var(--grid-gap);
   padding: 0 clamp(24px, 6vw, 80px) clamp(40px, 6vw, 80px);
+}
+
+.photo-grid.is-masonry {
+  column-count: initial;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--grid-gap);
+}
+
+.photo-grid-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gap);
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .photo-grid figure {
@@ -747,6 +765,10 @@ body:has(.home-hero) { overflow: hidden; }
   overflow: hidden;
   position: relative;
   break-inside: avoid;
+}
+
+.photo-grid.is-masonry figure {
+  margin: 0;
 }
 
 .photo-grid img {
@@ -774,11 +796,11 @@ body:has(.home-hero) { overflow: hidden; }
 }
 
 @media (max-width: 1100px) {
-  .photo-grid { column-count: 2; }
+  .photo-grid { --grid-columns: 2; column-count: 2; }
 }
 
 @media (max-width: 760px) {
-  .photo-grid { column-count: 1; }
+  .photo-grid { --grid-columns: 1; column-count: 1; }
 }
 
 @media (max-width: 640px) {

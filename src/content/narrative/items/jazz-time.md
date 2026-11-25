@@ -3,7 +3,7 @@ permalink: false
 image: "jazztime.png"
 order: 4
 alt: "Jazz Time! Musical for Children and Families film still"
-title: "Jazz Time! Musical for Children and Families"
+title: "JAZZ TIME!"
 credit: "Director of Photography"
 youtube_id: "NtAaMV1Grr4"
 ---

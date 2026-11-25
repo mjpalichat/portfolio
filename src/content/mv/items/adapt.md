@@ -3,7 +3,7 @@ permalink: false
 image: "adapt.webp"
 order: 8
 alt: "Adapt music video still"
-title: "Adapt"
+title: "ADAPT"
 credit: "Director, DP & Editor"
 youtube_id: "5J1ZRr0pBKs"
 ---

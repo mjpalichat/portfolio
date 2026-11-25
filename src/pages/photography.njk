@@ -6,7 +6,7 @@ permalink: /photography/
 <div class="photo-grid" data-lightbox-gallery>
 {% for item in collections.photography %}
   <figure>
-    <button class="lightbox-trigger" aria-label="View {{ item.data.alt }} larger">
+    <button class="lightbox-trigger" data-order="{{ loop.index0 }}" aria-label="View {{ item.data.alt }} larger">
       {% responsiveImage "./src/content/photography/originals/" + item.data.image, item.data.alt, "photography" %}
     </button>
   </figure>
@@ -14,3 +14,4 @@ permalink: /photography/
 </div>
 
 {% include "partials/lightbox.njk" %}
+<script src="{{ '/assets/js/masonry.js' | url }}" defer></script>

@@ -1,6 +1,11 @@
 const gallery = document.querySelector("[data-lightbox-gallery]");
 if (gallery) {
-  const triggers = Array.from(gallery.querySelectorAll(".lightbox-trigger"));
+  // Sorted by data-order rather than trusted as DOM order - masonry.js
+  // reparents these into column divs for layout, which no longer matches
+  // the photos' actual reading order, but prev/next here still should.
+  const triggers = Array.from(gallery.querySelectorAll(".lightbox-trigger")).sort(
+    (a, b) => Number(a.dataset.order) - Number(b.dataset.order)
+  );
   const lightbox = document.getElementById("lightbox");
   const frame = document.getElementById("lightbox-frame");
   const closeBtn = document.getElementById("lightbox-close");

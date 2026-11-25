@@ -141,9 +141,9 @@ photography, exactly:**
       hand-matched to `.photo-grid`'s breakpoints - if the grid layout
       changes again, this needs updating too or images will be served
       slightly larger than necessary (not broken, just not tight)
-- [x] `.photo-grid` went grid → row-based true-aspect → **true CSS
-      multi-column masonry** (`column-count`, same 3/2/1 breakpoints),
-      settling here after two superseded attempts:
+- [x] `.photo-grid` went grid → row-based true-aspect → CSS multi-column
+      masonry → **JS masonry** (`assets/js/masonry.js`), settling here
+      after three superseded attempts:
       1. Originally CSS multi-column was rejected in favor of a real CSS
          `grid` (`repeat(3, 1fr)`) because reading order was requested
          left-to-right-then-top-to-bottom like text, which columns can't
@@ -155,17 +155,27 @@ photography, exactly:**
          tallest photo instead.
       3. That in turn left visible black gaps under every photo shorter
          than its row's tallest one (a grid row's height is shared across
-         every column in that row) - **superseded again, by Matt
-         explicitly asking for true masonry and confirming the
-         reading-order trade-off is fine** ("I don't mind it being
-         scrambled"). Back to CSS multi-column, now for real: every photo
-         packs directly under the previous one in whichever column has
-         room, no gaps, true aspect ratio, at the cost of strict reading
-         order. MV/Narrative/Documentary cards are untouched (still their
-         own fixed 16:9 via `.mv-card img`, which is more specific and
-         wins, and are video thumbnails rather than photography/design
-         work, so look the same in a masonry column as they did in a grid
-         row since they're already uniform height).
+         every column in that row) - **superseded by Matt explicitly
+         asking for true masonry**, tried as CSS multi-column
+         (`column-count`), accepting scrambled reading order as the cost.
+      4. Multi-column's reading order turned out to be a real problem in
+         practice, not just a theoretical trade-off - it reads top-to-
+         bottom down column 1 before column 2 even starts, so desktop
+         users saw photos 1, 4, 7... stacked in the left column alone,
+         not 1, 2, 3 across the first row. **Fixed for real** with a small
+         vanilla JS masonry (no library): places each figure, still in its
+         original order, into whichever of the `--grid-columns` columns
+         (a custom property so JS reads the same 3/2/1 breakpoints CSS
+         already defines) currently has the least height - gapless *and*
+         reads left-to-right across each row, since equal/similar-height
+         photos naturally round-robin into columns 1,2,3,1,2,3... CSS
+         `column-count` is now only the pre-JS/no-JS fallback. Runs on
+         every `.photo-grid` (Photography, Design, MV, Narrative,
+         Documentary alike) and re-lays-out on resize. The lightbox's
+         prev/next was reading raw DOM order, which this reparents away
+         from the photos' actual sequence - fixed by giving each
+         `.lightbox-trigger` a `data-order` (its true position) and having
+         `lightbox.js` sort by that instead of trusting DOM order.
 - [x] Real home page built at `/` (no longer a redirect to `/photography/`)
       — clicking the MP logo in the header now goes to an actual page.
       Currently just a placeholder hero (`src/pages/index.njk`,
