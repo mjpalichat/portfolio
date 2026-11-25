@@ -1,6 +1,27 @@
 const video = document.getElementById("home-video");
 const reelBtn = document.getElementById("home-reel-btn");
 
+// One-time intro: a first-time visitor sees just the video alone for 1s,
+// then the header/logo/nav/Contact and the "View Reel" button fade in
+// together over 1.5s. A returning visitor (localStorage already set) gets
+// none of this - the inline script at the top of base.njk already added
+// chrome-visible before the header even rendered, so this block is a
+// no-op for them (the class is already there, nothing left to delay).
+try {
+  if (!localStorage.getItem("introSeen")) {
+    setTimeout(() => {
+      document.body.classList.add("chrome-visible");
+      try {
+        localStorage.setItem("introSeen", "true");
+      } catch (e) {}
+    }, 1000);
+  }
+} catch (e) {
+  // Storage blocked (private browsing, etc) - fail open rather than
+  // leaving the header/button invisible forever.
+  document.body.classList.add("chrome-visible");
+}
+
 // Best-effort: try to start with sound immediately, no click needed, for
 // visitors whose browser already trusts this site enough to allow it (e.g.
 // returning visitors with a high "media engagement" score). Most first-time

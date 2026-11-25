@@ -29,6 +29,17 @@
 {% set prevUrl = (pageOrder[currentIndex - 1] | url) if currentIndex > 0 else "" %}
 {% set nextUrl = (pageOrder[currentIndex + 1] | url) if (currentIndex > -1 and currentIndex < pageOrder.length - 1) else "" %}
 <body data-prev-url="{{ prevUrl }}" data-next-url="{{ nextUrl }}">
+  {% if page.url == '/' %}
+  <!-- Runs synchronously, before the header below is even parsed, so a
+       returning visitor's header/button never visibly flash hidden-then-
+       shown - only a first-time visitor (nothing in localStorage yet)
+       keeps them hidden for home.js's delayed one-time reveal. -->
+  <script>
+    try {
+      if (localStorage.getItem("introSeen")) document.body.classList.add("chrome-visible");
+    } catch (e) {}
+  </script>
+  {% endif %}
 
   <header class="site-header" id="site-header">
     <div class="header-left">

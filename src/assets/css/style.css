@@ -36,6 +36,28 @@ body.nav-open {
   overflow: hidden;
 }
 
+/* Homepage only: skip the generic whole-page fade above - the video
+   should be fully visible from frame one, every visit, not faded in with
+   everything else. The header/button get their own one-time reveal
+   instead: hidden by default, shown by adding .chrome-visible - either
+   instantly (the inline script in base.njk, for a returning visitor) or
+   after a delay (home.js, only the first time, see there for why). */
+body:has(.home-hero) {
+  animation: none;
+  opacity: 1;
+}
+
+body:has(.home-hero) .site-header,
+body:has(.home-hero) .home-reel-btn {
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+body:has(.home-hero).chrome-visible .site-header,
+body:has(.home-hero).chrome-visible .home-reel-btn {
+  opacity: 1;
+}
+
 img { max-width: 100%; display: block; }
 
 a { color: inherit; text-decoration: none; }
