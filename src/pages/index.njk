@@ -4,15 +4,22 @@ title: Matt Palichat
 permalink: /
 ---
 <div class="home-hero">
-  <!-- Two encodes, same split as every other responsive asset on the site
-       (eleventy-img's own breakpoints match this header/photo-grid mobile
-       cutoff): phones get a 640x360/~1.1MB file instead of the desktop
-       1280x720/~2.9MB one. -->
+  <!-- Purely decorative background loop - a single short shot, muted,
+       always. The actual reel lives on Vimeo (see home.js) for full
+       quality, since compressing a multi-minute reel down to a size
+       sane for a background video was a real quality tradeoff; this
+       clip stays small because it's short regardless of quality. Two
+       encodes, same split as every other responsive asset on the site. -->
   <video class="home-video" id="home-video" autoplay muted loop playsinline>
     <source src="{{ '/assets/video/reel-mobile.mp4' | url }}" media="(max-width: 640px)" type="video/mp4">
     <source src="{{ '/assets/video/reel.mp4' | url }}" type="video/mp4">
   </video>
   <button class="home-reel-btn" id="home-reel-btn" type="button">View Reel</button>
+</div>
+
+<div class="video-modal" id="video-modal" hidden>
+  <button class="video-modal-close" id="video-modal-close" aria-label="Close video">&times;</button>
+  <div class="video-modal-frame" id="video-modal-frame"></div>
 </div>
 
 <script src="{{ '/assets/js/home.js' | url }}" defer></script>
