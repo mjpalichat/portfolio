@@ -15,12 +15,14 @@ permalink: /
     <source src="{{ '/assets/video/reel.mp4' | url }}" type="video/mp4">
   </video>
   <button class="home-reel-btn" id="home-reel-btn" type="button">
-    <!-- Hover/focus preview, muted/looping like a YouTube thumbnail hover
-         preview - reuses the same background clip rather than a separate
-         asset, clipped to the circle and faded in via CSS alone (no JS). -->
+    <!-- Hover/focus preview: a silent, cropped, 30s loop of the actual
+         reel's opening (self-hosted, not the Vimeo embed) - loads fast and
+         reliably, unlike the iframe this replaced, which could sit on a
+         loading/verification screen or letterbox instead of filling the
+         circle. Full quality still lives on Vimeo for the real "View
+         Reel" click below. -->
     <video class="home-reel-btn-preview" autoplay muted loop playsinline aria-hidden="true">
-      <source src="{{ '/assets/video/reel-mobile.mp4' | url }}" media="(max-width: 640px)" type="video/mp4">
-      <source src="{{ '/assets/video/reel.mp4' | url }}" type="video/mp4">
+      <source src="{{ '/assets/video/reel-preview.mp4' | url }}" type="video/mp4">
     </video>
     <span class="home-reel-btn-label">View Reel</span>
   </button>

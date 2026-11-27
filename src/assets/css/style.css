@@ -432,11 +432,10 @@ body:has(.home-hero) { overflow: hidden; }
   padding: 0;
 }
 
-/* Hover/focus preview, muted/looping like a YouTube thumbnail hover
-   preview - a second, independent playback of the same background clip
-   (not the big page-wide one), cropped to fill the circle and faded in,
-   so hovering reads as "peeking into the reel" rather than just seeing
-   the page's own background video through a transparent gap. */
+/* Hover/focus preview: self-hosted (not the Vimeo embed, which could sit
+   on a loading/verification screen or letterbox instead of filling the
+   circle), so a plain object-fit:cover crop works directly - no oversizing
+   trick needed since we control this document. */
 .home-reel-btn-preview {
   position: absolute;
   inset: 0;
