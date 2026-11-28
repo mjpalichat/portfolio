@@ -18,7 +18,7 @@
 {% set navItems = [
   { label: "Narrative", url: "/narrative/" },
   { label: "Documentary", url: "/documentary/" },
-  { label: "MV", url: "/mv/", allCaps: true },
+  { label: "MV", url: "/mv/" },
   { label: "Design", url: "/design/" },
   { label: "Photo", url: "/photography/" },
   { label: "Music", url: "/music/" },
@@ -49,13 +49,16 @@
     </div>
 
     <div class="header-center">
-      <!-- Mobile-only full word list, shown in the hamburger's full-screen
+      <!-- Mobile-only full word list, shown in the toggle's full-screen
            overlay (see the max-width:640px media query) - desktop never
-           renders this, .compact-nav is its only nav there. -->
+           renders this, .compact-nav is its only nav there. The words sit
+           inside a drawn circle rather than just floating full-width. -->
       <nav class="site-nav" id="site-nav">
-        {% for item in navItems %}
-        <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{% if item.allCaps %}<span class="nav-allcaps">{{ item.label }}</span>{% else %}{{ item.label }}{% endif %}</a>
-        {% endfor %}
+        <div class="site-nav-circle">
+          {% for item in navItems %}
+          <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
+          {% endfor %}
+        </div>
       </nav>
       <nav class="compact-nav" aria-label="Page navigation">
         {% for item in navItems %}
@@ -74,7 +77,8 @@
     </div>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+      <span class="nav-toggle-dots"><span></span><span></span><span></span></span>
+      <span class="nav-toggle-circle"></span>
     </button>
   </header>
 

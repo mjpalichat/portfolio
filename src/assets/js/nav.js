@@ -126,6 +126,52 @@ document.addEventListener(
   { passive: false }
 );
 
+// Press and hold anywhere (3s) also opens the nav overlay - a fallback way
+// to find it besides the small toggle icon. Cancelled by any real finger
+// movement (so it doesn't fire while scrolling) or by releasing early.
+const HOLD_DURATION = 3000;
+const HOLD_MOVE_THRESHOLD = 10;
+let holdTimer = null;
+let holdStartX = 0;
+let holdStartY = 0;
+
+function cancelHold() {
+  if (holdTimer) {
+    clearTimeout(holdTimer);
+    holdTimer = null;
+  }
+}
+
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    if (isOverlayOpen() || nav.classList.contains("is-open")) return;
+    holdStartX = e.touches[0].clientX;
+    holdStartY = e.touches[0].clientY;
+    holdTimer = setTimeout(() => {
+      nav.classList.add("is-open");
+      toggle.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+      document.body.classList.add("nav-open");
+      holdTimer = null;
+    }, HOLD_DURATION);
+  },
+  { passive: true }
+);
+
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    if (!holdTimer) return;
+    const dx = e.touches[0].clientX - holdStartX;
+    const dy = e.touches[0].clientY - holdStartY;
+    if (Math.hypot(dx, dy) > HOLD_MOVE_THRESHOLD) cancelHold();
+  },
+  { passive: true }
+);
+
+document.addEventListener("touchend", cancelHold, { passive: true });
+
 // Arrow keys - skipped while typing in a form field (e.g. the contact
 // form's own inputs/textarea use arrow keys for text editing, not paging).
 document.addEventListener("keydown", (e) => {

@@ -165,21 +165,6 @@ body:has(.home-hero) .site-header {
   font-size: 1.5em;
 }
 
-/* MV is a 2-letter initialism, not a normal word - both letters get the
-   same emphasis instead of just the first (which would otherwise shrink
-   the V down to regular weight/size). The span mirrors ::first-letter's
-   own 1.5em/700 exactly, and ::first-letter is reset back to 1em/700 on
-   this one link so the two treatments don't stack into an oversized M. */
-.nav-allcaps {
-  font-weight: 700;
-  font-size: 1.5em;
-}
-
-.site-nav a:has(.nav-allcaps)::first-letter {
-  font-weight: 700;
-  font-size: 1em;
-}
-
 /* Underline only ever appears on hover (current page is already marked by
    the compact-nav's bold letter/filled dot, not an underline) - and it
    animates in with a left-to-right reveal. transform-origin stays "left"
@@ -343,9 +328,8 @@ body:has(.home-hero) { overflow: hidden; }
 
 .nav-toggle {
   display: none;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 5px;
   width: 32px;
   height: 32px;
   background: none;
@@ -356,24 +340,44 @@ body:has(.home-hero) { overflow: hidden; }
   z-index: 210;
 }
 
-.nav-toggle span {
+/* Closed: three small dots. Open: one bigger circle - not a literal merge
+   animation, just a crossfade (dots fade out, circle fades in while
+   scaling up from half-size), which reads as "the dots become the circle"
+   without needing to choreograph three separate paths. */
+.nav-toggle-dots {
+  display: flex;
+  gap: 5px;
+  transition: opacity 0.25s ease;
+}
+
+.nav-toggle-dots span {
   display: block;
-  height: 2px;
-  width: 100%;
-  background: var(--text-strong);
-  transition: transform 0.25s ease, opacity 0.2s ease;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--text-strong);
 }
 
-.nav-toggle.is-open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+.nav-toggle-circle {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--text-strong);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.nav-toggle.is-open span:nth-child(2) {
+.nav-toggle.is-open .nav-toggle-dots {
   opacity: 0;
 }
 
-.nav-toggle.is-open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+.nav-toggle.is-open .nav-toggle-circle {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* ---------- Empty state (a section with no content yet) ---------- */
@@ -859,14 +863,15 @@ body:has(.home-hero) { overflow: hidden; }
   .nav-toggle { grid-column: 3; grid-row: 1; }
   .header-center { grid-column: 1 / -1; grid-row: 2; }
 
-  /* Full-screen overlay, not a small dropdown panel - fades in/out and
-     the hamburger (.nav-toggle) morphs into an X via the rules above. */
+  /* Full-screen overlay, not a small dropdown panel - fades in/out, and
+     the toggle's dots morph into a circle via the rules above. The word
+     list itself sits inside a drawn circle rather than floating full-
+     width - sized to comfortably fit "Documentary" (the longest label)
+     without crowding its curve. */
   .site-nav {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 28px;
     position: fixed;
     inset: 0;
     background: var(--bg);
@@ -881,8 +886,24 @@ body:has(.home-hero) { overflow: hidden; }
     visibility: visible;
   }
 
+  .site-nav-circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: min(88vw, 420px);
+    height: min(88vw, 420px);
+    border-radius: 50%;
+    border: 1px solid var(--text-strong);
+    /* border-radius alone only draws a round outline - it doesn't clip
+       children to it. Overflow is tuned away by the sizing above; this is
+       just a safety net so nothing ever visibly pokes past the curve. */
+    overflow: hidden;
+  }
+
   .site-nav a {
-    font-size: 1.8rem;
+    font-size: 0.95rem;
   }
 
   .nav-toggle { display: flex; }
