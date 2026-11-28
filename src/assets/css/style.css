@@ -854,12 +854,11 @@ body:has(.home-hero) { overflow: hidden; }
   main { padding-top: calc(var(--header-height, 20vh) + 6vh); }
   main:has(> .home-hero) { padding-top: 0; }
 
-  .site-header {
-    grid-template-columns: 1fr auto auto;
-  }
-
-  .header-left { grid-column: 1; grid-row: 1; }
-  .header-right { grid-column: 2; grid-row: 1; }
+  /* Contact (left) / MP logo (center) / nav toggle (right), per Matt's
+     mobile mockup - same equal-thirds grid the desktop header already
+     uses, just with contact and the logo swapping sides. */
+  .header-right { grid-column: 1; grid-row: 1; }
+  .header-left { grid-column: 2; grid-row: 1; }
   .nav-toggle { grid-column: 3; grid-row: 1; }
   .header-center { grid-column: 1 / -1; grid-row: 2; }
 
@@ -886,20 +885,28 @@ body:has(.home-hero) { overflow: hidden; }
     visibility: visible;
   }
 
+  /* The circle centers one block (.site-nav-list) as a whole; the block
+     itself left-aligns its words so every first letter lines up, per
+     Matt's mockup - two levels of alignment, not one. */
   .site-nav-circle {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
     width: min(88vw, 420px);
     height: min(88vw, 420px);
     border-radius: 50%;
-    border: 1px solid var(--text-strong);
+    border: 2px solid var(--text-strong);
     /* border-radius alone only draws a round outline - it doesn't clip
        children to it. Overflow is tuned away by the sizing above; this is
        just a safety net so nothing ever visibly pokes past the curve. */
     overflow: hidden;
+  }
+
+  .site-nav-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
   }
 
   .site-nav a {

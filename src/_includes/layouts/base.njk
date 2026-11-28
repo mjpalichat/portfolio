@@ -55,9 +55,11 @@
            inside a drawn circle rather than just floating full-width. -->
       <nav class="site-nav" id="site-nav">
         <div class="site-nav-circle">
-          {% for item in navItems %}
-          <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
-          {% endfor %}
+          <div class="site-nav-list">
+            {% for item in navItems %}
+            <a href="{{ item.url | url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>
+            {% endfor %}
+          </div>
         </div>
       </nav>
       <nav class="compact-nav" aria-label="Page navigation">
