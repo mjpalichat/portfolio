@@ -60,31 +60,12 @@ function goToAdjacentPage(direction) {
   }
 }
 
-// Touch swipe (phones/tablets)
-let touchStartX = 0;
-let touchStartY = 0;
-
-document.addEventListener(
-  "touchstart",
-  (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  },
-  { passive: true }
-);
-
-document.addEventListener(
-  "touchend",
-  (e) => {
-    if (isOverlayOpen()) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    const SWIPE_THRESHOLD = 60;
-    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-    goToAdjacentPage(dx < 0 ? 1 : -1);
-  },
-  { passive: true }
-);
+// Touch swipe page-nav was removed on purpose - on a long portrait page
+// (e.g. Photography) a viewer scrolling through work could accidentally
+// trigger it and get bounced to the next section, which risked deterring
+// them from seeing the rest. Desktop trackpad swipe and arrow keys below
+// are unaffected; the 3s press-and-hold gesture further down is a
+// different, deliberate gesture, not an accidental one, so it stays.
 
 // Trackpad swipe (two-finger horizontal gesture fires `wheel` events with
 // deltaX, not touch events). `overscroll-behavior-x` in style.css is what

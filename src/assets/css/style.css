@@ -11,6 +11,41 @@
 
 * { box-sizing: border-box; }
 
+/* ---------- Custom cursor (desktop only - see cursor.js) ----------
+   .has-custom-cursor is only ever added by JS after it's confirmed a real
+   mouse is present, so hiding the system cursor here never affects touch. */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-strong);
+  background: transparent;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.custom-cursor.is-active {
+  opacity: 1;
+}
+
+/* Fills solid white over anything clickable - same size throughout, this
+   is a fill change, not a grow animation. Sized bigger than the nav dots
+   (8px/6px) on purpose, so it never reads as one of those. */
+.custom-cursor.is-hover {
+  background-color: var(--text-strong);
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -261,7 +296,6 @@ body:has(.home-hero) .compact-nav-letter {
 
 .compact-nav-letter.is-current {
   color: var(--text-strong);
-  font-weight: 700;
 }
 
 /* The current page's word stays fully expanded always, not just on hover -
@@ -857,9 +891,13 @@ body:has(.home-hero) { overflow: hidden; }
   /* Contact (left) / MP logo (center) / nav toggle (right), per Matt's
      mobile mockup - same equal-thirds grid the desktop header already
      uses, just with contact and the logo swapping sides. */
-  .header-right { grid-column: 1; grid-row: 1; }
+  /* Contact pins to the left edge and the toggle to the right edge (the
+     same edges the photo grid itself runs to), with the MP logo staying
+     centered in the middle column - flush-left/flush-right reads as
+     balanced, centered-in-a-third doesn't. */
+  .header-right { grid-column: 1; grid-row: 1; justify-self: flex-start; }
   .header-left { grid-column: 2; grid-row: 1; }
-  .nav-toggle { grid-column: 3; grid-row: 1; }
+  .nav-toggle { grid-column: 3; grid-row: 1; justify-self: flex-end; }
   .header-center { grid-column: 1 / -1; grid-row: 2; }
 
   /* Full-screen overlay, not a small dropdown panel - fades in/out, and

@@ -88,6 +88,13 @@
     {{ content | safe }}
   </main>
 
+  <!-- Desktop-only (cursor.js checks hover:hover + pointer:fine before
+       doing anything) - replaces the system arrow with a circle that
+       fills white over anything clickable. Hidden/inert everywhere else,
+       so it's safe to include on every page rather than per-page. -->
+  <div class="custom-cursor" id="custom-cursor" aria-hidden="true"></div>
+
   <script src="{{ '/assets/js/nav.js' | url }}" defer></script>
+  <script src="{{ '/assets/js/cursor.js' | url }}" defer></script>
 </body>
 </html>
